@@ -7,6 +7,8 @@ import core.http.JavaNetRiotHttp;
 import core.http.RiotHttp;
 import core.util.RiotIdResolver;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
         String apiKey = System.getenv("RIOT_API_KEY");
@@ -24,6 +26,6 @@ public class Main {
        SummonerDto summoner = riotApi.summoner().byPuuid(Regions.PlatformRegion.EUW1, puuid);
        System.out.println(summoner);
        String[] matchIds = riotApi.match().idsByPuuid(Regions.RegionalRoute.EUROPE, puuid, 0, 10);
-       System.out.println(matchIds);
+       System.out.println(Arrays.toString(matchIds));
     }
 }
