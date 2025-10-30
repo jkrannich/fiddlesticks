@@ -1,4 +1,3 @@
 package core.dto.match;
 
-public class MatchDto {
-}
+public record MatchDto(int matchId) {}

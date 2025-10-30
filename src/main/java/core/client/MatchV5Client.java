@@ -13,7 +13,8 @@ public final class MatchV5Client {
     }
 
     public String[] idsByPuuid(Regions.RegionalRoute route, String puuid, int start, int count) {
-        URI uri = URI.create(route.baseUrl() + "/lol/match/v5/matches/by-puuid" + puuid + "/ids?start=" + start + "&count=" + count);
+        String url = route.baseUrl() + "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?start=" + start + "&count=" + count;
+        URI uri = URI.create(url);
         return riotHttp.get(uri, String[].class).body();
     }
 }

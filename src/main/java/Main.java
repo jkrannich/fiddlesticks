@@ -1,9 +1,11 @@
+import core.RiotApi;
 import core.client.SummonerV4Client;
 import core.config.Regions;
 import core.config.RiotApiConfig;
 import core.dto.summoner.SummonerDto;
 import core.http.JavaNetRiotHttp;
 import core.http.RiotHttp;
+import core.util.RiotIdResolver;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,17 +17,13 @@ public class Main {
 
         RiotApiConfig config = RiotApiConfig.of(apiKey, Regions.PlatformRegion.EUW1, Regions.RegionalRoute.EUROPE);
         RiotHttp riotHttp = new JavaNetRiotHttp(config);
+        RiotApi riotApi = new RiotApi(riotHttp);
 
-        SummonerV4Client summonerV4Client = new SummonerV4Client(riotHttp);
+       String puuid = new RiotIdResolver(riotApi.account()).puuidOf(Regions.RegionalRoute.EUROPE, "Thayger", "Soul");
 
-        try {
-            SummonerDto summonerDto = summonerV4Client.byName("Faker", Regions.PlatformRegion.EUW1);
-            System.out.println(summonerDto.name());
-            System.out.println(summonerDto.summonerLevel());
-            System.out.println(summonerDto.accountId());
-        } catch (Exception e) {
-            System.err.println("Error calling Riot API" + e.getMessage());
-            e.printStackTrace();
-        }
+       SummonerDto summoner = riotApi.summoner().byPuuid(Regions.PlatformRegion.EUW1, puuid);
+       System.out.println(summoner);
+       String[] matchIds = riotApi.match().idsByPuuid(Regions.RegionalRoute.EUROPE, puuid, 0, 10);
+       System.out.println(matchIds);
     }
 }
