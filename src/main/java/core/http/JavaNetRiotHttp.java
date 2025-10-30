@@ -16,7 +16,8 @@ import java.util.Map;
 
 public final class JavaNetRiotHttp implements RiotHttp {
     private final HttpClient httpClient;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private final String apiKey;
 
     public JavaNetRiotHttp(RiotApiConfig config) {

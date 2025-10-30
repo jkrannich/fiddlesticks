@@ -3,6 +3,10 @@ package core.dto.match;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record MatchDto(Metadata metadata, Info info) {}
-
-
+public record PerkSelection(
+        int perk,
+        int var1,
+        int var2,
+        int var3
+) {
+}

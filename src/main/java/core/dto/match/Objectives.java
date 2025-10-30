@@ -3,6 +3,8 @@ package core.dto.match;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record MatchDto(Metadata metadata, Info info) {}
-
-
+public class Objectives(
+        Objective baron,
+        Objective dragon,
+        Objective tower
+) {}

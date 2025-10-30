@@ -1,5 +1,4 @@
 import core.RiotApi;
-import core.client.SummonerV4Client;
 import core.config.Regions;
 import core.config.RiotApiConfig;
 import core.dto.summoner.SummonerDto;
