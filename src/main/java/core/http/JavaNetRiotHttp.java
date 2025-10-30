@@ -29,7 +29,7 @@ public final class JavaNetRiotHttp implements RiotHttp {
     public <T> ApiResponse<T> get(URI uri, Class<T> type) {
         try {
             HttpRequest request = HttpRequest.newBuilder(uri)
-                    .timeout(Duration.ofSeconds(10))
+                    .timeout(Duration.ofSeconds(20))
                     .header("X-Riot-Token", apiKey)
                     .header("Accept", "application/json")
                     .GET().build();

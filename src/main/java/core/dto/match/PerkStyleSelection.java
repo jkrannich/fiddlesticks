@@ -3,8 +3,10 @@ package core.dto.match;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record Objectives(
-        Objective baron,
-        Objective dragon,
-        Objective tower
-) {}
+public record PerkStyleSelection(
+        int perk,
+        int var1,
+        int var2,
+        int var3
+) {
+}

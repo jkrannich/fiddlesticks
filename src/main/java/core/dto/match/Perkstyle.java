@@ -7,6 +7,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record Perkstyle(
         String description,
-        List<PerkSelection> selection
+        List<PerkStyleSelection> selection,
+        Integer style
 ) {
 }

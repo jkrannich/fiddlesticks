@@ -5,8 +5,11 @@ import core.dto.summoner.SummonerDto;
 import core.http.JavaNetRiotHttp;
 import core.http.RiotHttp;
 import core.util.RiotIdResolver;
+import wrapper.domain.MatchSummary;
+import wrapper.mapping.MatchMapper;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,7 +27,17 @@ public class Main {
 
        SummonerDto summoner = riotApi.summoner().byPuuid(Regions.PlatformRegion.EUW1, puuid);
        System.out.println(summoner);
-       String[] matchIds = riotApi.match().idsByPuuid(Regions.RegionalRoute.EUROPE, puuid, 0, 10);
-       System.out.println(Arrays.toString(matchIds));
+
+       String[] matchIds = riotApi.match().idsByPuuid(Regions.RegionalRoute.EUROPE, puuid, 0, 3);
+       System.out.println("Match ids: " + Arrays.toString(matchIds) + "\n");
+
+        List<MatchSummary> summaries = Arrays.stream(matchIds)
+                .map(id -> riotApi.match().match(Regions.RegionalRoute.EUROPE, id))
+                .map(dto -> MatchMapper.toSummaryForPuuid(dto, puuid))
+                .toList();
+
+        for (MatchSummary summary : summaries) {
+            System.out.println(summary);
+        }
     }
 }
