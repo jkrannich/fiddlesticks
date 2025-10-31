@@ -13,7 +13,7 @@ public record Participant(
         int assists,
         boolean win,
         int totalMinionsKilled,
-        int neutralMinionskilled,
+        int neutralMinionsKilled,
         int wardsPlaced,
         int visionScore,
         int goldEarned,
