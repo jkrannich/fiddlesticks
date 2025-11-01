@@ -44,7 +44,7 @@ public final class JavaNetRiotHttp implements RiotHttp {
             } else {
                 switch (s) {
                     case 400 -> throw new RiotException("Bad request calling" + uri);
-                    case 401 -> throw new RiotException("Unauthorized calling" + uri);
+                    case 401 -> throw new RiotException("Unauthorized calling " + uri);
                     case 404 -> throw new RiotException("Not found calling" + uri);
                     case 429 -> throw RiotRateLimitException.fromHeaders(headers);
                     default -> throw new RiotException("Http error calling" + uri);
