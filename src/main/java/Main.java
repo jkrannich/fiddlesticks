@@ -5,6 +5,7 @@ import core.dto.summoner.SummonerDto;
 import core.http.JavaNetRiotHttp;
 import core.http.RiotHttp;
 import core.util.RiotIdResolver;
+import io.github.cdimascio.dotenv.Dotenv;
 import wrapper.domain.MatchSummary;
 import wrapper.mapping.MatchMapper;
 
@@ -13,7 +14,9 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        String apiKey = System.getenv("RIOT_API_KEY");
+        Dotenv dotenv = Dotenv.load();
+        String apiKey = dotenv.get("RIOT_API_KEY");
+
         if (apiKey == null) {
             System.err.println("Please set RIOT_API_KEY environment variable");
             return;
