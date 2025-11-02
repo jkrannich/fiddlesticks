@@ -21,4 +21,9 @@ public final class AccountV1Client {
         URI uri = URI.create(route.baseUrl() + "/riot/account/v1/accounts/by-riot-id/" + g + "/" + t);
         return riotHttp.get(uri, AccountDto.class).body();
     }
+
+    public AccountDto byPuuid(Regions.RegionalRoute route, String puuid) {
+        URI uri = URI.create(route.baseUrl() + "/riot/account/v1/accounts/by-puuid/" + puuid);
+        return riotHttp.get(uri, AccountDto.class).body();
+    }
 }

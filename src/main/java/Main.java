@@ -1,6 +1,7 @@
 import core.RiotApi;
 import core.config.Regions;
 import core.config.RiotApiConfig;
+import core.dto.account.AccountDto;
 import core.dto.summoner.SummonerDto;
 import core.http.JavaNetRiotHttp;
 import core.http.RiotHttp;
@@ -27,6 +28,9 @@ public class Main {
         RiotApi riotApi = new RiotApi(riotHttp);
 
        String puuid = new RiotIdResolver(riotApi.account()).puuidOf(Regions.RegionalRoute.EUROPE, "Thayger", "Soul");
+        AccountDto account = riotApi.account().byPuuid(Regions.RegionalRoute.EUROPE, puuid);
+        System.out.println(account);
+
 
        SummonerDto summoner = riotApi.summoner().byPuuid(Regions.PlatformRegion.EUW1, puuid);
        System.out.println(summoner);
