@@ -19,8 +19,18 @@ public final class ChampionMasteryV4Client {
         return List.of(riotHttp.get(uri, ChampionMasteryDto[].class).body());
     }
 
+    public ChampionMasteryDto getChampionMasteriesByPuuidAndChampionId(Regions.PlatformRegion server, String puuid, int championId) {
+        URI uri = URI.create(server.baseUrl() + "/lol/champion-mastery/v4/champion-masteries/by-puuid/" + puuid + "/by-champion/" + championId);
+        return riotHttp.get(uri, ChampionMasteryDto.class).body();
+    }
+
     public List<ChampionMasteryDto> getChampionMasteriesByPuuidTop(Regions.PlatformRegion server, String puuid) {
         URI uri = URI.create(server.baseUrl() + "/lol/champion-mastery/v4/champion-masteries/by-puuid/" + puuid + "/top");
         return List.of(riotHttp.get(uri, ChampionMasteryDto[].class).body());
+    }
+
+    public int getTotalMasteryScore(Regions.PlatformRegion server, String puuid) {
+        URI uri = URI.create(server.baseUrl() + "/lol/champion-mastery/v4/scores/by-puuid/" + puuid);
+        return riotHttp.get(uri, Integer.class).body();
     }
 }
