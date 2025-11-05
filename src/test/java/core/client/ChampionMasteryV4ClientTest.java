@@ -85,4 +85,51 @@ class ChampionMasteryV4ClientTest {
                 eq(ChampionMasteryDto[].class)
         );
     }
+
+    @Test
+    void getChampionMasteriesByPuuidAndChampionId_shouldReturnChampionMasteryDto() {
+        String puuid = "test-puuid";
+        int championId = 103;
+        ChampionMasteryDto masteries = new ChampionMasteryDto(puuid, 1, false, championId, 500L, 20, 2);
+
+        ApiResponse<ChampionMasteryDto> response = new ApiResponse<>(200, Map.of(), masteries);
+        when(riotHttp.get(any(URI.class), eq(ChampionMasteryDto.class))).thenReturn(response);
+
+        ChampionMasteryDto result = championMasteryV4Client.getChampionMasteriesByPuuidAndChampionId(
+                Regions.PlatformRegion.EUW1,
+                puuid,
+                championId
+        );
+
+        assertThat(result).isNotNull();
+        assertThat(result.championLevel()).isEqualTo(20);
+        assertThat(result.puuid()).isEqualTo(puuid);
+        assertThat(result.championId()).isEqualTo(championId);
+
+        verify(riotHttp).get(
+                eq(URI.create("https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/" + puuid + "/by-champion/" + championId)),
+                eq(ChampionMasteryDto.class)
+        );
+    }
+
+    @Test
+    void getTotalMasteryScore_shouldReturnTotalMasteryScore() {
+        String puuid = "test-puuid";
+        int totalMasteryScore = 1000;
+
+        ApiResponse<Integer> response = new ApiResponse<>(200, Map.of(), totalMasteryScore);
+        when(riotHttp.get(any(URI.class), eq(Integer.class))).thenReturn(response);
+
+        int result = championMasteryV4Client.getTotalMasteryScore(
+                Regions.PlatformRegion.EUW1,
+                puuid
+        );
+
+        assertThat(result).isEqualTo(totalMasteryScore);
+
+        verify(riotHttp).get(
+                eq(URI.create("https://euw1.api.riotgames.com/lol/champion-mastery/v4/scores/by-puuid/" + puuid)),
+                eq(Integer.class)
+        );
+    }
 }
