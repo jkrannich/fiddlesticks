@@ -2,6 +2,7 @@ import core.RiotApi;
 import core.config.Regions;
 import core.config.RiotApiConfig;
 import core.dto.account.AccountDto;
+import core.dto.championMastery.ChampionMasteryDto;
 import core.dto.summoner.SummonerDto;
 import core.http.JavaNetRiotHttp;
 import core.http.RiotHttp;
@@ -46,5 +47,8 @@ public class Main {
         for (MatchSummary summary : summaries) {
             System.out.println(summary);
         }
+
+        List<ChampionMasteryDto> c = riotApi.championMastery().getChampionMasteriesByPuuid(Regions.PlatformRegion.EUW1, puuid);
+        System.out.println(c);
     }
 }
