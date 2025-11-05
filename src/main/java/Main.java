@@ -50,5 +50,9 @@ public class Main {
 
         List<ChampionMasteryDto> c = riotApi.championMastery().getChampionMasteriesByPuuid(Regions.PlatformRegion.EUW1, puuid);
         System.out.println(c);
+        int totalMasteryScore = riotApi.championMastery().getTotalMasteryScore(Regions.PlatformRegion.EUW1, puuid);
+        System.out.println(totalMasteryScore);
+        ChampionMasteryDto championMasteryDto = riotApi.championMastery().getChampionMasteriesByPuuidAndChampionId(Regions.PlatformRegion.EUW1, puuid, 103);
+        System.out.println(championMasteryDto);
     }
 }
