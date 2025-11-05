@@ -58,4 +58,31 @@ public class ChampionMasteryV4ClientTest {
                 eq(ChampionMasteryDto[].class)
         );
     }
+
+    @Test
+    void getChampionMasteriesByPuuidTop_shouldReturnListOfChampionMasteryDto() {
+        String puuid = "test-puuid";
+        ChampionMasteryDto[] masteries = new ChampionMasteryDto[]{
+                new ChampionMasteryDto(puuid, 1, false, 2L, 500L, 20, 2),
+                new ChampionMasteryDto(puuid, 2, true, 3L, 500L, 2000, 2)
+        };
+
+        ApiResponse<ChampionMasteryDto[]> response = new ApiResponse<>(200, Map.of(), masteries);
+        when(riotHttp.get(any(URI.class), eq(ChampionMasteryDto[].class))).thenReturn(response);
+
+        List<ChampionMasteryDto> result = championMasteryV4Client.getChampionMasteriesByPuuidTop(
+                Regions.PlatformRegion.EUW1,
+                puuid
+        );
+
+        assertThat(result).isNotNull();
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0).championLevel()).isEqualTo(20);
+        assertThat(result.get(1).championLevel()).isEqualTo(2000);
+
+        verify(riotHttp).get(
+                eq(URI.create("https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/" + puuid + "/top")),
+                eq(ChampionMasteryDto[].class)
+        );
+    }
 }
