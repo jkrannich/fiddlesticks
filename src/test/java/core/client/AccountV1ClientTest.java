@@ -32,7 +32,7 @@ class AccountV1ClientTest {
     }
 
     @Test
-    void byRiotId_shouldCallCorrectEndpoint() {
+    void byRiotId_shouldCallCorrectEndpointAndReturnCorrectAccountDto() {
         String gameName = "Thayger";
         String tagLine = "Soul";
         AccountDto expectedAccount = new AccountDto(
@@ -53,6 +53,31 @@ class AccountV1ClientTest {
 
         verify(riotHttp).get(
                 eq(URI.create("https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Thayger/Soul")),
+                eq(AccountDto.class)
+        );
+    }
+
+    @Test
+    void byPuuid_shouldCallCorrectEndpointAndReturnCorrectAccountDto() {
+        String puuid = "test-puuid";
+        AccountDto expectedAccount = new AccountDto(
+                puuid,
+                "Thayger",
+                "Soul"
+        );
+
+        ApiResponse<AccountDto> response = new ApiResponse<>(200, Map.of(), expectedAccount);
+        when(riotHttp.get(any(URI.class), eq(AccountDto.class))).thenReturn(response);
+
+        AccountDto result = accountV1Client.byPuuid(Regions.RegionalRoute.EUROPE, puuid);
+
+        assertThat(result).isNotNull();
+        assertThat(result.puuid()).isEqualTo(puuid);
+        assertThat(result.gameName()).isEqualTo("Thayger");
+        assertThat(result.tagLine()).isEqualTo("Soul");
+
+        verify(riotHttp).get(
+                eq(URI.create("https://europe.api.riotgames.com/riot/account/v1/accounts/by-puuid/" + puuid)),
                 eq(AccountDto.class)
         );
     }
