@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
-public class ChampionMasteryV4ClientTest {
+class ChampionMasteryV4ClientTest {
 
     @Mock
     private RiotHttp riotHttp;
