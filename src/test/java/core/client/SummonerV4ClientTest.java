@@ -3,6 +3,7 @@ package core.client;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import core.config.Regions;
 import core.dto.summoner.SummonerDto;
@@ -58,5 +59,10 @@ class SummonerV4ClientTest {
         assertThat(result.profileIconId()).isEqualTo(1234);
         assertThat(result.revisionDate()).isEqualTo(1L);
         assertThat(result.summonerLevel()).isEqualTo(150L);
+
+        verify(riotHttp).get(
+                eq(URI.create(platformRegion.baseUrl() + "/lol/summoner/v4/summoners/by-puuid/" + puuid)),
+                eq(SummonerDto.class)
+        );
     }
 }
