@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import core.config.Regions;
+import core.dto.match.MatchDto;
 import core.http.ApiResponse;
 import core.http.RiotHttp;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,6 +59,26 @@ class MatchV5ClientTest {
         verify(riotHttp).get(
                 eq(URI.create("https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/" + puuid + "/ids?start=" + start + "&count=" + count)),
                 eq(String[].class)
+        );
+    }
+
+    @Test
+    void match_shouldReturnMatchDto() {
+        String matchId = "EUW1_1234567890";
+        Regions.RegionalRoute route = Regions.RegionalRoute.EUROPE;
+
+        MatchDto expected = new MatchDto(null, null);
+
+        ApiResponse<MatchDto> response = new ApiResponse<>(200, Map.of(), expected);
+        when(riotHttp.get(any(URI.class), eq(MatchDto.class))).thenReturn(response);
+
+        MatchDto result = matchV5Client.match(route, matchId);
+
+        assertThat(result).isNotNull();
+
+        verify(riotHttp).get(
+                eq(URI.create("https://europe.api.riotgames.com/lol/match/v5/matches/" + matchId)),
+                eq(MatchDto.class)
         );
     }
 }
