@@ -1,6 +1,7 @@
 package core.client;
 
 import core.config.Regions;
+import core.dto.championRotation.ChampionInfoDto;
 import core.http.RiotHttp;
 
 import java.net.URI;
