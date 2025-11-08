@@ -2,6 +2,7 @@ package core.client;
 
 import core.config.Regions;
 import core.dto.clash.PlayerDto;
+import core.dto.clash.TeamDto;
 import core.http.RiotHttp;
 
 import java.net.URI;
@@ -18,5 +19,10 @@ public final class ClashV1Client {
     public List<PlayerDto> getPlayersByPuuid(Regions.PlatformRegion platformRegion, String puuid) {
         URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/players/by-puuid/" + puuid);
         return List.of(riotHttp.get(uri, PlayerDto[].class).body());
+    }
+
+    public TeamDto getTeamById(Regions.PlatformRegion platformRegion, String teamId) {
+        URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/teams/" + teamId);
+        return riotHttp.get(uri, TeamDto.class).body();
     }
 }
