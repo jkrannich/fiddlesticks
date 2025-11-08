@@ -3,6 +3,7 @@ package core.client;
 import core.config.Regions;
 import core.dto.clash.PlayerDto;
 import core.dto.clash.TeamDto;
+import core.dto.clash.TournamentDto;
 import core.http.RiotHttp;
 
 import java.net.URI;
@@ -24,5 +25,10 @@ public final class ClashV1Client {
     public TeamDto getTeamById(Regions.PlatformRegion platformRegion, String teamId) {
         URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/teams/" + teamId);
         return riotHttp.get(uri, TeamDto.class).body();
+    }
+
+    public List<TournamentDto> getAllActiveOrUpcomingTournaments(Regions.PlatformRegion platformRegion) {
+        URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments");
+        return List.of(riotHttp.get(uri, TournamentDto[].class).body());
     }
 }
