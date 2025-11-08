@@ -1,3 +1,6 @@
 package core.dto.clash;
 
-public record PlayerDto(String puuid, String teamId, String position, String role) {}
+import core.enums.Position;
+import core.enums.Role;
+
+public record PlayerDto(String puuid, String teamId, Position position, Role role) {}
