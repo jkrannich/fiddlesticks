@@ -31,4 +31,14 @@ public final class ClashV1Client {
         URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments");
         return List.of(riotHttp.get(uri, TournamentDto[].class).body());
     }
+
+    public TournamentDto getTournamentByTeamId(Regions.PlatformRegion platformRegion, String teamId) {
+        URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments/by-team/" + teamId);
+        return riotHttp.get(uri, TournamentDto.class).body();
+    }
+
+    public TournamentDto getTournamentById(Regions.PlatformRegion platformRegion, String tournamentId) {
+        URI uri = URI.create(platformRegion.baseUrl() + "lol/clash/v1/tournaments/" + tournamentId);
+        return riotHttp.get(uri, TournamentDto.class).body();
+    }
 }
