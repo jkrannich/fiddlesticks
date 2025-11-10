@@ -7,6 +7,7 @@ import core.dto.clash.TournamentDto;
 import core.http.RiotHttp;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 public final class ClashV1Client {
@@ -29,7 +30,8 @@ public final class ClashV1Client {
 
     public List<TournamentDto> getAllActiveOrUpcomingTournaments(Regions.PlatformRegion platformRegion) {
         URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments");
-        return List.of(riotHttp.get(uri, TournamentDto[].class).body());
+        TournamentDto[] tournaments = riotHttp.get(uri, TournamentDto[].class).body();
+        return Arrays.asList(tournaments);
     }
 
     public TournamentDto getTournamentByTeamId(Regions.PlatformRegion platformRegion, String teamId) {
@@ -38,7 +40,7 @@ public final class ClashV1Client {
     }
 
     public TournamentDto getTournamentById(Regions.PlatformRegion platformRegion, String tournamentId) {
-        URI uri = URI.create(platformRegion.baseUrl() + "lol/clash/v1/tournaments/" + tournamentId);
+        URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments/" + tournamentId);
         return riotHttp.get(uri, TournamentDto.class).body();
     }
 }

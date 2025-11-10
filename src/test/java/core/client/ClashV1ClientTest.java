@@ -2,6 +2,7 @@ package core.client;
 
 import core.config.Regions;
 import core.dto.clash.PlayerDto;
+import core.dto.clash.TeamDto;
 import core.enums.Position;
 import core.enums.Role;
 import core.http.ApiResponse;
@@ -62,6 +63,33 @@ class ClashV1ClientTest {
         verify(riotHttp).get(
                 eq(URI.create("https://eun1.api.riotgames.com/lol/clash/v1/players/by-puuid/" + puuid)),
                 eq(PlayerDto[].class)
+        );
+    }
+
+    @Test
+    void getTeamById_shouldReturnTeamDto() {
+        String teamId = "test-teamId";
+        Regions.PlatformRegion platformRegion = Regions.PlatformRegion.BR1;
+
+        URI expectedUri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/teams/" + teamId);
+
+        TeamDto teamDto = new TeamDto(
+                "1", 1, "Test Team", 1, 1, "Test Captain", "ABC", List.of(
+                        new PlayerDto("test-puuid", "Team 1", Position.MIDDLE, Role.MEMBER),
+                        new PlayerDto("test-puuid", "Team 1", Position.BOTTOM, Role.MEMBER)
+        ));
+
+        ApiResponse<TeamDto> response = new ApiResponse<>(200, Map.of(), teamDto);
+        when(riotHttp.get(any(URI.class), eq(TeamDto.class))).thenReturn(response);
+
+        TeamDto result = clashV1Client.getTeamById(platformRegion, teamId);
+
+        assertThat(result).isNotNull();
+        assertThat(result).isSameAs(teamDto);
+
+        verify(riotHttp).get(
+                eq(expectedUri),
+                eq(TeamDto.class)
         );
     }
 }
