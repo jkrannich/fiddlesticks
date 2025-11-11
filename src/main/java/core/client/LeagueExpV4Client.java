@@ -1,6 +1,10 @@
 package core.client;
 
 import core.config.Regions;
+import core.dto.leagueExp.LeagueEntryDto;
+import core.enums.Division;
+import core.enums.Queue;
+import core.enums.Tier;
 import core.http.RiotHttp;
 
 import java.util.Set;
