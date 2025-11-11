@@ -7,7 +7,7 @@ import core.http.RiotHttp;
 import java.net.URI;
 
 public final class ChampionV3Client {
-    private RiotHttp riotHttp;
+    private final RiotHttp riotHttp;
 
     public ChampionV3Client(RiotHttp riotHttp) {
         this.riotHttp = riotHttp;
