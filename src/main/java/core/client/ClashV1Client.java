@@ -7,7 +7,6 @@ import core.dto.clash.TournamentDto;
 import core.http.RiotHttp;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 
 public final class ClashV1Client {
