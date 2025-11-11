@@ -30,8 +30,7 @@ public final class ClashV1Client {
 
     public List<TournamentDto> getAllActiveOrUpcomingTournaments(Regions.PlatformRegion platformRegion) {
         URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments");
-        TournamentDto[] tournaments = riotHttp.get(uri, TournamentDto[].class).body();
-        return Arrays.asList(tournaments);
+        return List.of(riotHttp.get(uri, TournamentDto[].class).body());
     }
 
     public TournamentDto getTournamentByTeamId(Regions.PlatformRegion platformRegion, String teamId) {

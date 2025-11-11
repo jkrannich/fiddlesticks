@@ -7,6 +7,7 @@ import core.enums.Queue;
 import core.enums.Tier;
 import core.http.RiotHttp;
 
+import java.net.URI;
 import java.util.Set;
 
 public final class LeagueExpV4Client {
@@ -21,6 +22,7 @@ public final class LeagueExpV4Client {
                                                    Queue queueType,
                                                    Tier tier,
                                                    Division division) {
-
+        URI uri = URI.create(platformRegion.baseUrl() + "/lol/league-exp/v4/entries/" + queueType.name() + "/" + tier.name() + "/" + division.name() + "?page=" + page);
+        return Set.of(riotHttp.get(uri, LeagueEntryDto.class).body());
     }
 }
