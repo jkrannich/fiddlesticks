@@ -22,26 +22,26 @@ public final class JavaNetRiotHttp implements RiotHttp {
             .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private final String apiKey;
 
-    public JavaNetRiotHttp(RiotApiConfig config) {
+    public JavaNetRiotHttp(final RiotApiConfig config) {
         this.httpClient = HttpClient.newBuilder().connectTimeout(config.timeout()).build();
         this.apiKey = config.apiKey();
     }
 
     @Override
-    public <T> ApiResponse<T> get(URI uri, Class<T> type) {
+    public <T> ApiResponse<T> get(final URI uri, final Class<T> type) {
         try {
-            HttpRequest request = HttpRequest.newBuilder(uri)
+            final HttpRequest request = HttpRequest.newBuilder(uri)
                     .timeout(Duration.ofSeconds(20))
                     .header("X-Riot-Token", apiKey)
                     .header("Accept", "application/json")
                     .GET().build();
 
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            int s = response.statusCode();
-            Map<String, List<String>> headers = response.headers().map();
+            final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+            final int s = response.statusCode();
+            final Map<String, List<String>> headers = response.headers().map();
 
             if (s == 200) {
-                T body = objectMapper.readValue(response.body(), type);
+                final T body = objectMapper.readValue(response.body(), type);
                 return new ApiResponse<>(s, headers, body);
             } else {
                 switch (s) {
@@ -53,7 +53,7 @@ public final class JavaNetRiotHttp implements RiotHttp {
                     default -> throw new RiotException("Http error calling" + uri);
                 }
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RiotException("Http error calling" + uri, e);
         }
     }
