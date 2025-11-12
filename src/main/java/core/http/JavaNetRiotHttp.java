@@ -3,7 +3,9 @@ package core.http;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import core.config.RiotApiConfig;
 import core.error.RiotException;
+import core.error.RiotNotFoundException;
 import core.error.RiotRateLimitException;
+import core.error.RiotServerException;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -45,8 +47,9 @@ public final class JavaNetRiotHttp implements RiotHttp {
                 switch (s) {
                     case 400 -> throw new RiotException("Bad request calling" + uri);
                     case 401 -> throw new RiotException("Unauthorized calling " + uri);
-                    case 404 -> throw new RiotException("Not found calling" + uri);
+                    case 404 -> throw new RiotNotFoundException("Not found calling" + uri);
                     case 429 -> throw RiotRateLimitException.fromHeaders(headers);
+                    case 500, 502, 503, 504 -> throw new RiotServerException(s, uri.toString());
                     default -> throw new RiotException("Http error calling" + uri);
                 }
             }
