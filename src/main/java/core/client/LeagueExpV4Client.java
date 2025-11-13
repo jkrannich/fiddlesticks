@@ -13,16 +13,16 @@ import java.util.Set;
 public final class LeagueExpV4Client {
     private final RiotHttp riotHttp;
 
-    public LeagueExpV4Client(RiotHttp riotHttp) {
+    public LeagueExpV4Client(final RiotHttp riotHttp) {
         this.riotHttp = riotHttp;
     }
 
-    public Set<LeagueEntryDto> getAllLeagueEntries(Regions.PlatformRegion platformRegion,
-                                                   int page,
-                                                   Queue queueType,
-                                                   Tier tier,
-                                                   Division division) {
-        URI uri = URI.create(platformRegion.baseUrl() + "/lol/league-exp/v4/entries/" + queueType.name() + "/" + tier.name() + "/" + division.name() + "?page=" + page);
+    public Set<LeagueEntryDto> getAllLeagueEntries(final Regions.PlatformRegion platformRegion,
+                                                   final int page,
+                                                   final Queue queueType,
+                                                   final Tier tier,
+                                                   final Division division) {
+        final URI uri = URI.create(platformRegion.baseUrl() + "/lol/league-exp/v4/entries/" + queueType.name() + "/" + tier.name() + "/" + division.name() + "?page=" + page);
         return Set.of(riotHttp.get(uri, LeagueEntryDto[].class).body());
     }
 }

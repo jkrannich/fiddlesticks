@@ -14,27 +14,27 @@ import java.util.Set;
 public final class LeagueV4Client {
     private final RiotHttp riotHttp;
 
-    public LeagueV4Client(RiotHttp riotHttp) {
+    public LeagueV4Client(final RiotHttp riotHttp) {
         this.riotHttp = riotHttp;
     }
 
-    public LeagueListDto getChallengerLeagueForGivenQueue(Regions.PlatformRegion platformRegion, Queue queueType) {
-        URI uri = URI.create(platformRegion.baseUrl() + "/lol/league/v4/challengerleagues/by-queue/" + queueType.name());
+    public LeagueListDto getChallengerLeagueForGivenQueue(final Regions.PlatformRegion platformRegion, final Queue queueType) {
+        final URI uri = URI.create(platformRegion.baseUrl() + "/lol/league/v4/challengerleagues/by-queue/" + queueType.name());
         return riotHttp.get(uri, LeagueListDto.class).body();
     }
 
-    public Set<LeagueEntryDto> getLeagueEntriesInAllQueuesByPuuid(Regions.PlatformRegion platformRegion, String puuid) {
-        URI uri = URI.create(platformRegion.baseUrl() + "/lol/league/v4/entries/by-puuid/" + puuid);
+    public Set<LeagueEntryDto> getLeagueEntriesInAllQueuesByPuuid(final Regions.PlatformRegion platformRegion, final String puuid) {
+        final URI uri = URI.create(platformRegion.baseUrl() + "/lol/league/v4/entries/by-puuid/" + puuid);
         return Set.of(riotHttp.get(uri, LeagueEntryDto[].class).body());
     }
 
-    public Set<LeagueEntryDto> getAllLeagueEntries(Regions.PlatformRegion platformRegion, Queue queueType, Tier tier, Division division, int page) {
-        URI uri = URI.create(platformRegion.baseUrl() + "/lol/league/v4/entries/" + queueType.name() + "/" + tier.name() + "/" + division.name() + "?page=" + page);
+    public Set<LeagueEntryDto> getAllLeagueEntries(final Regions.PlatformRegion platformRegion, final Queue queueType, final Tier tier, final Division division, final int page) {
+        final URI uri = URI.create(platformRegion.baseUrl() + "/lol/league/v4/entries/" + queueType.name() + "/" + tier.name() + "/" + division.name() + "?page=" + page);
         return Set.of(riotHttp.get(uri, LeagueEntryDto[].class).body());
     }
 
-    public LeagueListDto getGrandMasterLeagueForGivenQueue(Regions.PlatformRegion platformRegion, Queue queueType) {
-        URI uri = URI.create(platformRegion.baseUrl() + "/lol/league/v4/grandmasterleagues/by-queue/" + queueType.name());
+    public LeagueListDto getGrandMasterLeagueForGivenQueue(final Regions.PlatformRegion platformRegion, final Queue queueType) {
+        final URI uri = URI.create(platformRegion.baseUrl() + "/lol/league/v4/grandmasterleagues/by-queue/" + queueType.name());
         return riotHttp.get(uri, LeagueListDto.class).body();
     }
 

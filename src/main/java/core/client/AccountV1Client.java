@@ -11,19 +11,19 @@ import java.nio.charset.StandardCharsets;
 public final class AccountV1Client {
     private final RiotHttp riotHttp;
 
-    public AccountV1Client(RiotHttp riotHttp) {
+    public AccountV1Client(final RiotHttp riotHttp) {
         this.riotHttp = riotHttp;
     }
 
-    public AccountDto byRiotId(Regions.RegionalRoute route, String gameName, String tagLine) {
-        String g = URLEncoder.encode(gameName, StandardCharsets.UTF_8);
-        String t = URLEncoder.encode(tagLine, StandardCharsets.UTF_8);
-        URI uri = URI.create(route.baseUrl() + "/riot/account/v1/accounts/by-riot-id/" + g + "/" + t);
+    public AccountDto byRiotId(final Regions.RegionalRoute route, final String gameName, final String tagLine) {
+        final String g = URLEncoder.encode(gameName, StandardCharsets.UTF_8);
+        final String t = URLEncoder.encode(tagLine, StandardCharsets.UTF_8);
+        final URI uri = URI.create(route.baseUrl() + "/riot/account/v1/accounts/by-riot-id/" + g + "/" + t);
         return riotHttp.get(uri, AccountDto.class).body();
     }
 
-    public AccountDto byPuuid(Regions.RegionalRoute route, String puuid) {
-        URI uri = URI.create(route.baseUrl() + "/riot/account/v1/accounts/by-puuid/" + puuid);
+    public AccountDto byPuuid(final Regions.RegionalRoute route, final String puuid) {
+        final URI uri = URI.create(route.baseUrl() + "/riot/account/v1/accounts/by-puuid/" + puuid);
         return riotHttp.get(uri, AccountDto.class).body();
     }
 }

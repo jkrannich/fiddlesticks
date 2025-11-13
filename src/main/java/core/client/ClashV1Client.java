@@ -13,32 +13,32 @@ public final class ClashV1Client {
 
     private final RiotHttp riotHttp;
 
-    public ClashV1Client(RiotHttp riotHttp) {
+    public ClashV1Client(final RiotHttp riotHttp) {
         this.riotHttp = riotHttp;
     }
 
-    public List<PlayerDto> getPlayersByPuuid(Regions.PlatformRegion platformRegion, String puuid) {
-        URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/players/by-puuid/" + puuid);
+    public List<PlayerDto> getPlayersByPuuid(final Regions.PlatformRegion platformRegion, final String puuid) {
+        final URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/players/by-puuid/" + puuid);
         return List.of(riotHttp.get(uri, PlayerDto[].class).body());
     }
 
-    public TeamDto getTeamById(Regions.PlatformRegion platformRegion, String teamId) {
-        URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/teams/" + teamId);
+    public TeamDto getTeamById(final Regions.PlatformRegion platformRegion, final String teamId) {
+        final URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/teams/" + teamId);
         return riotHttp.get(uri, TeamDto.class).body();
     }
 
-    public List<TournamentDto> getAllActiveOrUpcomingTournaments(Regions.PlatformRegion platformRegion) {
-        URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments");
+    public List<TournamentDto> getAllActiveOrUpcomingTournaments(final Regions.PlatformRegion platformRegion) {
+        final URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments");
         return List.of(riotHttp.get(uri, TournamentDto[].class).body());
     }
 
-    public TournamentDto getTournamentByTeamId(Regions.PlatformRegion platformRegion, String teamId) {
-        URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments/by-team/" + teamId);
+    public TournamentDto getTournamentByTeamId(final Regions.PlatformRegion platformRegion, final String teamId) {
+        final URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments/by-team/" + teamId);
         return riotHttp.get(uri, TournamentDto.class).body();
     }
 
-    public TournamentDto getTournamentById(Regions.PlatformRegion platformRegion, String tournamentId) {
-        URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments/" + tournamentId);
+    public TournamentDto getTournamentById(final Regions.PlatformRegion platformRegion, final String tournamentId) {
+        final URI uri = URI.create(platformRegion.baseUrl() + "/lol/clash/v1/tournaments/" + tournamentId);
         return riotHttp.get(uri, TournamentDto.class).body();
     }
 }
