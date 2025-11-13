@@ -12,7 +12,7 @@ public final class RiotApi {
     private final SummonerV4Client summonerV4Client;
     private final ChampionMasteryV4Client championMasteryV4Client;
 
-    public RiotApi(RiotHttp riotHttp) {
+    public RiotApi(final RiotHttp riotHttp) {
         this.accountV1Client = new AccountV1Client(riotHttp);
         this.matchV5Client = new MatchV5Client(riotHttp);
         this.summonerV4Client = new SummonerV4Client(riotHttp);
