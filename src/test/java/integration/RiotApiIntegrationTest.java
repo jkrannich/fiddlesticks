@@ -6,6 +6,7 @@ import core.config.Regions;
 import core.config.RiotApiConfig;
 import core.dto.account.AccountDto;
 import core.dto.championMastery.ChampionMasteryDto;
+import core.dto.championRotation.ChampionInfoDto;
 import core.dto.summoner.SummonerDto;
 import core.http.JavaNetRiotHttp;
 import core.http.RiotHttp;
@@ -25,6 +26,7 @@ public class RiotApiIntegrationTest {
     static void setUp() {
         Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
         String apiKey = dotenv.get("RIOT_API_KEY");
+        System.out.println(apiKey);
 
         if (apiKey == null) {
             throw new IllegalStateException("Please set RIOT_API_KEY environment variable");
@@ -87,6 +89,15 @@ public class RiotApiIntegrationTest {
 
         assertThat(matchIds).isNotEmpty();
         assertThat(matchIds).allMatch(id -> id.contains("_"));
+    }
 
+    @Test
+    void shouldFetchChampionRotation() {
+        ChampionInfoDto championRotation = riotApi.champion().getChampionRotation(Regions.PlatformRegion.EUW1);
+
+        assertThat(championRotation).isNotNull();
+        assertThat(championRotation.freeChampionIds()).isNotEmpty();
+        assertThat(championRotation.maxNewPlayerLevel()).isGreaterThan(0);
+        assertThat(championRotation.freeChampionIdsForNewPlayers()).isNotEmpty();
     }
 }
