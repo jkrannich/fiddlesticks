@@ -3,6 +3,7 @@ package core.client;
 import core.config.Regions;
 import core.dto.challenges.ApexPlayerInfoDto;
 import core.dto.challenges.ChallengeConfigInfoDto;
+import core.dto.challenges.PlayerInfoDto;
 import core.enums.Level;
 import core.http.RiotHttp;
 
@@ -35,5 +36,15 @@ public final class LoLChallengesV1Client {
     public List<ApexPlayerInfoDto> getTopPlayersForEachlevel(final Regions.PlatformRegion platformRegion, final Level level, final int challengeId) {
         URI uri = URI.create(platformRegion.baseUrl() + "/lol/challenges/v1/challenges/" + challengeId + "/leaderboards/by-level/" + level.name());
         return List.of(riotHttp.get(uri, ApexPlayerInfoDto[].class).body());
+    }
+
+    public Map<Level, Double> getMapOfLevelToPercentileOfPlayersWhoAchievedIt(final Regions.PlatformRegion platformRegion, final int challengeId) {
+        URI uri = URI.create(platformRegion.baseUrl() + "/lol/challenges/v1/challenges/" + challengeId + "/percentiles");
+        return riotHttp.get(uri, Map.class).body();
+    }
+
+    public PlayerInfoDto getPlayerInformationWithListOfAllPrgoressedChallenges(final Regions.PlatformRegion platformRegion, final String puuid) {
+        URI uri = URI.create(platformRegion.baseUrl() + "/lol/challenges/v1/players/" + puuid);
+        return riotHttp.get(uri, PlayerInfoDto.class).body();
     }
 }
