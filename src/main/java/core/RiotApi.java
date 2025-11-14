@@ -66,7 +66,7 @@ public final class RiotApi {
         return leagueExpV4Client;
     }
 
-    public LoLChallengesV1Client loLChallenges() {
+    public LoLChallengesV1Client challenges() {
         return loLChallengesV1Client;
     }
 }

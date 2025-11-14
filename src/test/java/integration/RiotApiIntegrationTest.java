@@ -5,6 +5,7 @@ import core.RiotApi;
 import core.config.Regions;
 import core.config.RiotApiConfig;
 import core.dto.account.AccountDto;
+import core.dto.challenges.ChallengeConfigInfoDto;
 import core.dto.championMastery.ChampionMasteryDto;
 import core.dto.championRotation.ChampionInfoDto;
 import core.dto.summoner.SummonerDto;
@@ -26,7 +27,6 @@ public class RiotApiIntegrationTest {
     static void setUp() {
         Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
         String apiKey = dotenv.get("RIOT_API_KEY");
-        System.out.println(apiKey);
 
         if (apiKey == null) {
             throw new IllegalStateException("Please set RIOT_API_KEY environment variable");
@@ -99,5 +99,14 @@ public class RiotApiIntegrationTest {
         assertThat(championRotation.freeChampionIds()).isNotEmpty();
         assertThat(championRotation.maxNewPlayerLevel()).isGreaterThan(0);
         assertThat(championRotation.freeChampionIdsForNewPlayers()).isNotEmpty();
+    }
+
+    @Test
+    void shouldFetchChallengeConfigs() {
+        List<ChallengeConfigInfoDto> configs = riotApi.challenges().listAllBasicChallengeConfigInfo(Regions.PlatformRegion.EUW1);
+
+        assertThat(configs).isNotNull();
+        assertThat(configs).isNotEmpty();
+        assertThat(configs.getFirst().id()).isGreaterThanOrEqualTo(0);
     }
 }
