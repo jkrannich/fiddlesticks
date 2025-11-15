@@ -2,10 +2,10 @@ package wrapper.mapping;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import core.dto.match.Info;
-import core.dto.match.MatchDto;
-import core.dto.match.Metadata;
-import core.dto.match.Participant;
+import core.dto.matchV5.Info;
+import core.dto.matchV5.MatchDto;
+import core.dto.matchV5.Metadata;
+import core.dto.matchV5.Participant;
 import org.junit.jupiter.api.Test;
 import wrapper.domain.MatchSummary;
 

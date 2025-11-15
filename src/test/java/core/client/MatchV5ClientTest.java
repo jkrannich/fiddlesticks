@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import core.config.Regions;
-import core.dto.match.MatchDto;
+import core.dto.matchV5.MatchDto;
 import core.http.ApiResponse;
 import core.http.RiotHttp;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +47,7 @@ class MatchV5ClientTest {
         ApiResponse<String[]> response = new ApiResponse<>(200, Map.of(), expectedMatchIds);
         when(riotHttp.get(any(URI.class), eq(String[].class))).thenReturn(response);
 
-        String[] result = matchV5Client.idsByPuuid(route, puuid, start, count);
+        String[] result = matchV5Client.getListOfMatchIdsByPuuid(route, puuid, start, count);
 
         assertThat(result).isNotNull();
         assertThat(result).hasSize(3);
@@ -72,7 +72,7 @@ class MatchV5ClientTest {
         ApiResponse<MatchDto> response = new ApiResponse<>(200, Map.of(), expected);
         when(riotHttp.get(any(URI.class), eq(MatchDto.class))).thenReturn(response);
 
-        MatchDto result = matchV5Client.match(route, matchId);
+        MatchDto result = matchV5Client.getMatchByMatchId(route, matchId);
 
         assertThat(result).isNotNull();
 

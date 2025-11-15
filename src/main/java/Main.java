@@ -36,11 +36,11 @@ public class Main {
        SummonerDto summoner = riotApi.summoner().byPuuid(Regions.PlatformRegion.EUW1, puuid);
        System.out.println(summoner);
 
-       String[] matchIds = riotApi.match().idsByPuuid(Regions.RegionalRoute.EUROPE, puuid, 0, 3);
+       String[] matchIds = riotApi.match().getListOfMatchIdsByPuuid(Regions.RegionalRoute.EUROPE, puuid, 0, 3);
        System.out.println("Match ids: " + Arrays.toString(matchIds) + "\n");
 
         List<MatchSummary> summaries = Arrays.stream(matchIds)
-                .map(id -> riotApi.match().match(Regions.RegionalRoute.EUROPE, id))
+                .map(id -> riotApi.match().getMatchByMatchId(Regions.RegionalRoute.EUROPE, id))
                 .map(dto -> MatchMapper.toSummaryForPuuid(dto, puuid))
                 .toList();
 

@@ -85,7 +85,7 @@ public class RiotApiIntegrationTest {
                 TEST_TAG_LINE
         );
 
-        String[] matchIds = riotApi.match().idsByPuuid(Regions.RegionalRoute.EUROPE, account.puuid(), 0, 5);
+        String[] matchIds = riotApi.match().getListOfMatchIdsByPuuid(Regions.RegionalRoute.EUROPE, account.puuid(), 0, 5);
 
         assertThat(matchIds).isNotEmpty();
         assertThat(matchIds).allMatch(id -> id.contains("_"));

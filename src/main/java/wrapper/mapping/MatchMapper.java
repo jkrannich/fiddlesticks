@@ -1,7 +1,7 @@
 package wrapper.mapping;
 
-import core.dto.match.MatchDto;
-import core.dto.match.Participant;
+import core.dto.matchV5.MatchDto;
+import core.dto.matchV5.Participant;
 import wrapper.domain.MatchSummary;
 
 public final class MatchMapper {
