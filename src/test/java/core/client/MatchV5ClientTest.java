@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import core.config.Regions;
 import core.dto.matchV5.MatchDto;
+import core.dto.matchV5.TimelineDto;
 import core.http.ApiResponse;
 import core.http.RiotHttp;
 import org.junit.jupiter.api.BeforeEach;
@@ -79,6 +80,26 @@ class MatchV5ClientTest {
         verify(riotHttp).get(
                 eq(URI.create("https://europe.api.riotgames.com/lol/match/v5/matches/" + matchId)),
                 eq(MatchDto.class)
+        );
+    }
+
+    @Test
+    void matchTimeline_shouldReturnTimelineDto() {
+        String matchId = "EUW1_1234567890";
+        Regions.RegionalRoute route = Regions.RegionalRoute.EUROPE;
+
+        TimelineDto expected = new TimelineDto(null, null);
+
+        ApiResponse<TimelineDto> response = new ApiResponse<>(200, Map.of(), expected);
+        when(riotHttp.get(any(URI.class), eq(TimelineDto.class))).thenReturn(response);
+
+        TimelineDto result = matchV5Client.getMatchTimelineByMatchId(route, matchId);
+
+        assertThat(result).isNotNull();
+
+        verify(riotHttp).get(
+                eq(URI.create("https://europe.api.riotgames.com/lol/match/v5/matches/" + matchId + "/timeline")),
+                eq(TimelineDto.class)
         );
     }
 }
