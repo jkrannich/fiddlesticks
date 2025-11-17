@@ -53,8 +53,10 @@ public final class JavaNetRiotHttp implements RiotHttp {
                     default -> throw new RiotException("Http error calling" + uri);
                 }
             }
+        } catch (final RiotException e) {
+            throw e;
         } catch (final Exception e) {
-            throw new RiotException("Http error calling" + uri, e);
+            throw new RiotException("Error calling" + uri, e);
         }
     }
 }
