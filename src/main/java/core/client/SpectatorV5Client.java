@@ -1,0 +1,19 @@
+package core.client;
+
+import core.config.Regions;
+import core.http.RiotHttp;
+
+import java.net.URI;
+
+public final class SpectatorV5Client {
+    private RiotHttp riotHttp;
+
+    public SpectatorV5Client(RiotHttp riotHttp) {
+        this.riotHttp = riotHttp;
+    }
+
+    public CurrentGameInfo getCurrentGameInfoForGivenPuuid(final Regions.PlatformRegion platformRegion, final String puuid) {
+        URI uri = URI.create(platformRegion.baseUrl() + "/lol/spectator/v5/active-games/by-summoner/" + puuid);
+        return riotHttp.get(uri, CurrentGameInfo.class).body();
+    }
+}
