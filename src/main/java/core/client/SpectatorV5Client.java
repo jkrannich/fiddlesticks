@@ -1,14 +1,15 @@
 package core.client;
 
 import core.config.Regions;
+import core.dto.spectator.CurrentGameInfo;
 import core.http.RiotHttp;
 
 import java.net.URI;
 
 public final class SpectatorV5Client {
-    private RiotHttp riotHttp;
+    private final RiotHttp riotHttp;
 
-    public SpectatorV5Client(RiotHttp riotHttp) {
+    public SpectatorV5Client(final RiotHttp riotHttp) {
         this.riotHttp = riotHttp;
     }
 
