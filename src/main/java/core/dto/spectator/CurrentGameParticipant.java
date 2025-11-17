@@ -1,6 +1,5 @@
 package core.dto.spectator;
-
-import core.dto.matchV5.Perks;
+import java.util.List;
 
 public record CurrentGameParticipant(
         long championId,
