@@ -1,5 +1,7 @@
 package core.dto.spectator;
 
+import java.util.List;
+
 public record CurrentGameInfo(
         long gameId,
         String gameType,
@@ -8,7 +10,7 @@ public record CurrentGameInfo(
         long gameLength,
         String platformId,
         String gameMode,
-        List<BannedChampions> bannedChampions,
+        List<BannedChampion> bannedChampions,
         long gameQueueConfigId,
         Observer observers,
         List<CurrentGameParticipant> participants
