@@ -8,6 +8,7 @@ import core.client.LeagueExpV4Client;
 import core.client.LeagueV4Client;
 import core.client.LoLChallengesV1Client;
 import core.client.MatchV5Client;
+import core.client.SpectatorV5Client;
 import core.client.SummonerV4Client;
 import core.http.RiotHttp;
 
@@ -21,6 +22,7 @@ public final class RiotApi {
     private final LeagueV4Client leagueV4Client;
     private final LeagueExpV4Client leagueExpV4Client;
     private final LoLChallengesV1Client loLChallengesV1Client;
+    private final SpectatorV5Client spectatorV5Client;
 
     public RiotApi(final RiotHttp riotHttp) {
         this.accountV1Client = new AccountV1Client(riotHttp);
@@ -32,6 +34,7 @@ public final class RiotApi {
         this.leagueV4Client = new LeagueV4Client(riotHttp);
         this.leagueExpV4Client = new LeagueExpV4Client(riotHttp);
         this.loLChallengesV1Client = new LoLChallengesV1Client(riotHttp);
+        this.spectatorV5Client = new SpectatorV5Client(riotHttp);
     }
 
     public AccountV1Client account() {
@@ -68,5 +71,9 @@ public final class RiotApi {
 
     public LoLChallengesV1Client challenges() {
         return loLChallengesV1Client;
+    }
+
+    public SpectatorV5Client spectator() {
+        return spectatorV5Client;
     }
 }
