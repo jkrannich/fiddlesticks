@@ -21,6 +21,7 @@ public final class JavaNetRiotHttp implements RiotHttp {
     private final ObjectMapper objectMapper = new ObjectMapper()
             .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private final String apiKey;
+    private Exception e;
 
     public JavaNetRiotHttp(final RiotApiConfig config) {
         this.httpClient = HttpClient.newBuilder().connectTimeout(config.timeout()).build();
@@ -50,13 +51,13 @@ public final class JavaNetRiotHttp implements RiotHttp {
                     case 404 -> throw new RiotNotFoundException("Not found calling" + uri);
                     case 429 -> throw RiotRateLimitException.fromHeaders(headers);
                     case 500, 502, 503, 504 -> throw new RiotServerException(s, uri.toString());
-                    default -> throw new RiotException("Http error calling" + uri);
+                    default -> throw new RiotException("Http error calling " + uri);
                 }
             }
         } catch (final RiotException e) {
             throw e;
         } catch (final Exception e) {
-            throw new RiotException("Error calling" + uri, e);
+            throw new RiotException("Error calling " + uri, e);
         }
     }
 }
