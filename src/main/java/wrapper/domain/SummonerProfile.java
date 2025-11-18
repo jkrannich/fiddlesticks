@@ -1,4 +1,12 @@
 package wrapper.domain;
 
-public class SummonerProfile {
+import core.config.Regions;
+import core.enums.Tier;
+
+public record SummonerProfile(
+        String name,
+        String tag,
+        int level,
+        int profileIconId
+) {
 }

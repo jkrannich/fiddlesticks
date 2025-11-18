@@ -3,7 +3,9 @@ package wrapper.service;
 import core.RiotApi;
 import core.config.Regions;
 import wrapper.domain.MatchSummary;
+import wrapper.domain.SummonerProfile;
 import wrapper.mapping.MatchMapper;
+import wrapper.mapping.SummonerMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +35,13 @@ public final class RiotLeagueService {
             summaries.add(summary);
         }
         return summaries;
+    }
+
+    public SummonerProfile getSummonerProfile(final Regions.RegionalRoute route, final Regions.PlatformRegion region, final String name, final String tag) {
+        var account = riotApi.account().byRiotId(route, name, tag);
+
+        var summoner = riotApi.summoner().byPuuid(region, account.puuid());
+
+        return SummonerMapper.toProfile(account.gameName(), account.tagLine(), summoner);
     }
 }
