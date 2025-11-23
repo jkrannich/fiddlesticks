@@ -1,9 +1,18 @@
 plugins {
     id("java")
+    id("maven-publish")
 }
 
 group = "io.github.jkrannich"
 version = "1.0-SNAPSHOT"
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+        }
+    }
+}
 
 repositories {
     mavenCentral()
