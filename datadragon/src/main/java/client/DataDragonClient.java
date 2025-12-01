@@ -1,5 +1,7 @@
 package client;
 
+import dto.ChampionsIndexDto;
+
 import java.net.URI;
 import java.util.List;
 
