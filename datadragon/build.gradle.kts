@@ -20,6 +20,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:2.17.1")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.1")
     implementation("io.github.cdimascio:dotenv-java:3.0.0")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
 }
 
 tasks.test {
