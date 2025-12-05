@@ -1,14 +1,11 @@
 package client;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.ChampionsIndexDto;
 import util.HttpUtils;
 
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 
 public final class HttpDataDragonClient implements DataDragonClient {
 
@@ -49,6 +46,60 @@ public final class HttpDataDragonClient implements DataDragonClient {
         return URI.create(
                 BASE + "/cdn/" + version + "/img/champion/" + championId + ".png"
         );
+    }
+
+    @Override
+    public URI championLoading(String version, String championId) {
+        return URI.create(
+                BASE + "/cdn/img/champion/loading/" + championId + "_0.jpg"
+        );
+    }
+
+    @Override
+    public URI championSplash(String championid, int skinNumber) {
+        return URI.create(
+                BASE + "/cdn/img/champion/splash/" + championid + "_" + skinNumber + ".jpg"
+        );
+    }
+
+    @Override
+    public Map<String, Object> items(String version, String locale) {
+        return HttpUtils.readMap(
+                BASE + "/cdn/" + version + "/data/" + locale + "/item.json"
+        );
+    }
+
+    @Override
+    public URI itemIcon(String version, String itemId) {
+        return URI.create(
+                BASE + "/cdn/" + version + "/img/item/" + itemId + ".png"
+        );
+    }
+
+    @Override
+    public Map<String, Object> summonerSpells(String version, String locale) {
+        return HttpUtils.readMap(
+                BASE + "/cdn/" + version + "/data/" + locale + "/summoner.json"
+        );
+    }
+
+    @Override
+    public URI summonerSpellIcon(String version, String spellId) {
+        return URI.create(
+                BASE + "/cdn/" + version + "/img/spell/" + spellId + ".png"
+        );
+    }
+
+    @Override
+    public Map<String, Object> runes(String version, String locale) {
+        return HttpUtils.readMap(
+                BASE + "/cdn/" + version + "/data/" + locale + "/runesReforged.json"
+        );
+    }
+
+    @Override
+    public URI runeIcon(String iconPath) {
+        return URI.create(BASE + "/cdn/img/" + iconPath);
     }
 
     @Override

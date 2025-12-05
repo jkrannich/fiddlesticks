@@ -4,6 +4,7 @@ import dto.ChampionsIndexDto;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 public interface DataDragonClient {
     List<String> versions();
@@ -11,7 +12,18 @@ public interface DataDragonClient {
     List<String> languages();
 
     ChampionsIndexDto champions(String version, String locale);
-
     URI championSquare(String version, String championId);
+    URI championLoading(String version, String championId);
+    URI championSplash(String championid, int skinNumber);
+
+    Map<String, Object> items(String version, String locale);
+    URI itemIcon(String version, String itemId);
+
+    Map<String, Object> summonerSpells(String version, String locale);
+    URI summonerSpellIcon(String version, String spellId);
+
+    Map<String, Object> runes(String version, String locale);
+    URI runeIcon(String iconPath);
+
     URI profileIcon(String version, int iconId);
 }

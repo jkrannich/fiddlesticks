@@ -1,5 +1,6 @@
 package util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 
 public final class HttpUtils {
 
@@ -36,6 +38,16 @@ public final class HttpUtils {
             return List.of(MAPPER.readValue(body, type));
         } catch (IOException e) {
             throw new RuntimeException("Failed reading array from " + url, e);
+        }
+    }
+
+    public static Map<String, Object> readMap(String url) {
+        String body = get(URI.create(url));
+        try {
+            return MAPPER.readValue(body, new TypeReference<>() {
+            });
+        } catch (IOException e) {
+            throw new RuntimeException("Failed reading map from " + url, e);
         }
     }
 
