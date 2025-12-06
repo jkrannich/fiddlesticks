@@ -22,7 +22,7 @@ public interface DataDragonClient {
     Map<String, Object> summonerSpells(String version, String locale);
     URI summonerSpellIcon(String version, String spellId);
 
-    Map<String, Object> runes(String version, String locale);
+    List<Object> runes(String version, String locale);
     URI runeIcon(String iconPath);
 
     URI profileIcon(String version, int iconId);

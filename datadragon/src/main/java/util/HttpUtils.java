@@ -70,4 +70,14 @@ public final class HttpUtils {
             throw new RuntimeException("Failed GET " + uri, e);
         }
     }
+
+    public static List<Object> readList(String url) {
+        String body = get(URI.create(url));
+        try {
+            return MAPPER.readValue(body, new TypeReference<>() {
+            });
+        } catch (IOException e) {
+            throw new RuntimeException("Failed reading list from " + url, e);
+        }
+    }
 }

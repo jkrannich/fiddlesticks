@@ -91,8 +91,8 @@ public final class HttpDataDragonClient implements DataDragonClient {
     }
 
     @Override
-    public Map<String, Object> runes(String version, String locale) {
-        return HttpUtils.readMap(
+    public List<Object> runes(String version, String locale) {
+        return HttpUtils.readList(
                 BASE + "/cdn/" + version + "/data/" + locale + "/runesReforged.json"
         );
     }

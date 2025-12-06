@@ -2,12 +2,16 @@ import client.DataDragonClient;
 import client.HttpDataDragonClient;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 public class DummyClass {
     public static void main(String[] args) {
         try {
             DataDragonClient dd = new HttpDataDragonClient();
+
+            String versions = dd.versions().toString();
+            System.out.println("Versions: " + versions);
 
             String version = dd.latestVersion();
             System.out.println("Latest version: " + version);
@@ -48,7 +52,7 @@ public class DummyClass {
 
             // Test rune endpoints
             System.out.println("=== Rune Endpoints ===");
-            Map<String, Object> runes = dd.runes(version, "en_US");
+            List<Object> runes = dd.runes(version, "en_US");
             System.out.println("Runes response: " + runes.getClass().getSimpleName());
 
             URI runeIcon = dd.runeIcon("perk-images/Styles/Domination/Electrocute/Electrocute.png");
