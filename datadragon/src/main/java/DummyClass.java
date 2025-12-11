@@ -34,8 +34,8 @@ public class DummyClass {
 
             // Test item endpoints
             System.out.println("=== Item Endpoints ===");
-            Map<String, Object> items = dd.items(version, "en_US");
-            System.out.println("Items response keys: " + items.keySet());
+            var items = dd.items(version, "en_US");
+            System.out.println("Items response keys: " + items.data().size());
 
             URI itemIcon = dd.itemIcon(version, "1001");
             System.out.println("Item icon (Boots): " + itemIcon);
@@ -43,8 +43,8 @@ public class DummyClass {
 
             // Test summoner spell endpoints
             System.out.println("=== Summoner Spell Endpoints ===");
-            Map<String, Object> summonerSpells = dd.summonerSpells(version, "en_US");
-            System.out.println("Summoner spells response keys: " + summonerSpells.keySet());
+            var summonerSpells = dd.summonerSpells(version, "en_US");
+            System.out.println("Summoner spells response keys: " + summonerSpells.data().size());
 
             URI spellIcon = dd.summonerSpellIcon(version, "SummonerFlash");
             System.out.println("Summoner spell icon (Flash): " + spellIcon);
@@ -52,8 +52,8 @@ public class DummyClass {
 
             // Test rune endpoints
             System.out.println("=== Rune Endpoints ===");
-            List<Object> runes = dd.runes(version, "en_US");
-            System.out.println("Runes response: " + runes.getClass().getSimpleName());
+            var runes = dd.runes(version, "en_US");
+            System.out.println("Runes response: " + runes.size());
 
             URI runeIcon = dd.runeIcon("perk-images/Styles/Domination/Electrocute/Electrocute.png");
             System.out.println("Rune icon (Electrocute): " + runeIcon);

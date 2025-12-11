@@ -3,16 +3,15 @@ package dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
-import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record ItemDataDto(
+public record SummonerSpellDto(
+        String id,
         String name,
         String description,
-        String plaintext,
-        List<String> into,
-        List<String> from,
-        ItemGoldDto gold,
-        Map<String, Double> stats
+        String tooltip,
+        String key,
+        int summonerLevel,
+        List<String> modes
 ) {
 }

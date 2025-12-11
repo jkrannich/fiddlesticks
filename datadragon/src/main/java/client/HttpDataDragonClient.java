@@ -1,6 +1,10 @@
 package client;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import dto.ChampionsIndexDto;
+import dto.ItemsIndexDto;
+import dto.RuneTreeDto;
+import dto.SummonerSpellsDto;
 import util.HttpUtils;
 
 import java.net.URI;
@@ -63,9 +67,10 @@ public final class HttpDataDragonClient implements DataDragonClient {
     }
 
     @Override
-    public Map<String, Object> items(String version, String locale) {
-        return HttpUtils.readMap(
-                BASE + "/cdn/" + version + "/data/" + locale + "/item.json"
+    public ItemsIndexDto items(String version, String locale) {
+        return HttpUtils.read(
+                BASE + "/cdn/" + version + "/data/" + locale + "/item.json",
+                ItemsIndexDto.class
         );
     }
 
@@ -77,9 +82,10 @@ public final class HttpDataDragonClient implements DataDragonClient {
     }
 
     @Override
-    public Map<String, Object> summonerSpells(String version, String locale) {
-        return HttpUtils.readMap(
-                BASE + "/cdn/" + version + "/data/" + locale + "/summoner.json"
+    public SummonerSpellsDto summonerSpells(String version, String locale) {
+        return HttpUtils.read(
+                BASE + "/cdn/" + version + "/data/" + locale + "/summoner.json",
+                SummonerSpellsDto.class
         );
     }
 
@@ -91,9 +97,10 @@ public final class HttpDataDragonClient implements DataDragonClient {
     }
 
     @Override
-    public List<Object> runes(String version, String locale) {
-        return HttpUtils.readList(
-                BASE + "/cdn/" + version + "/data/" + locale + "/runesReforged.json"
+    public List<RuneTreeDto> runes(String version, String locale) {
+        return HttpUtils.read(
+                BASE + "/cdn/" + version + "/data/" + locale + "/runesReforged.json",
+                new TypeReference<List<RuneTreeDto>>() {}
         );
     }
 
@@ -105,7 +112,7 @@ public final class HttpDataDragonClient implements DataDragonClient {
     @Override
     public URI profileIcon(String version, int iconId) {
         return URI.create(
-                BASE + "/cdn/" + version + "/img/profileicon" + iconId + ".png"
+                BASE + "/cdn/" + version + "/img/profileicon/" + iconId + ".png"
         );
     }
 }

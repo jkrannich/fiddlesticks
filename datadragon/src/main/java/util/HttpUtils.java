@@ -32,6 +32,15 @@ public final class HttpUtils {
         }
     }
 
+    public static <T> T read(String url, TypeReference<T> typeReference) {
+        String body = get(URI.create(url));
+        try {
+            return MAPPER.readValue(body, typeReference);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not parse JSON from " + url, e);
+        }
+    }
+
     public static <T> List<T> readArray(String url, Class<T[]> type) {
         String body = get(URI.create(url));
         try {

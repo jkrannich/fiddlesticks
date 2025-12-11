@@ -1,6 +1,9 @@
 package client;
 
 import dto.ChampionsIndexDto;
+import dto.ItemsIndexDto;
+import dto.RuneTreeDto;
+import dto.SummonerSpellsDto;
 
 import java.net.URI;
 import java.util.List;
@@ -16,13 +19,13 @@ public interface DataDragonClient {
     URI championLoading(String version, String championId);
     URI championSplash(String championid, int skinNumber);
 
-    Map<String, Object> items(String version, String locale);
+    ItemsIndexDto items(String version, String locale);
     URI itemIcon(String version, String itemId);
 
-    Map<String, Object> summonerSpells(String version, String locale);
+    SummonerSpellsDto summonerSpells(String version, String locale);
     URI summonerSpellIcon(String version, String spellId);
 
-    List<Object> runes(String version, String locale);
+    List<RuneTreeDto> runes(String version, String locale);
     URI runeIcon(String iconPath);
 
     URI profileIcon(String version, int iconId);
