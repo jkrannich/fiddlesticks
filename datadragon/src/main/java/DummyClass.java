@@ -2,8 +2,6 @@ import client.DataDragonClient;
 import client.HttpDataDragonClient;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
 
 public class DummyClass {
     public static void main(String[] args) {
