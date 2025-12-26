@@ -4,7 +4,6 @@ import core.config.RiotApiConfig;
 import core.dto.account.AccountDto;
 import core.dto.challenges.ChallengeConfigInfoDto;
 import core.dto.challenges.PlayerInfoDto;
-import core.dto.championMastery.ChampionMasteryDto;
 import core.dto.championRotation.ChampionInfoDto;
 import core.dto.clash.PlayerDto;
 import core.dto.leagueExp.LeagueEntryDto;
@@ -14,11 +13,12 @@ import core.http.JavaNetRiotHttp;
 import core.http.RiotHttp;
 import core.util.RiotIdResolver;
 import io.github.cdimascio.dotenv.Dotenv;
-import wrapper.domain.MatchSummary;
-import wrapper.mapping.MatchMapper;
+import wrapper.domain.RankSnapshot;
+import wrapper.domain.RankedQueue;
+import wrapper.service.DefaultRankService;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class Main {
@@ -99,5 +99,9 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Not currently in game: " + e.getMessage());
         }
+
+        final DefaultRankService test = new DefaultRankService(riotApi);
+        Optional<RankSnapshot> rankSnapShotForTestSummoner = test.rankByRiotId(Regions.RegionalRoute.EUROPE, Regions.PlatformRegion.EUW1, "Agurin", "DND", RankedQueue.SOLO_5X5);
+        System.out.println(rankSnapShotForTestSummoner);
     }
 }
