@@ -1,12 +1,39 @@
 plugins {
     id("java")
+    id("maven-publish")
 }
 
 group = "io.github.jkrannich"
-version = "1.0-SNAPSHOT"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("gpr") {
+            from(components["java"])
+            artifactId = "fiddlesticks"
+
+            pom {
+                name.set("Fiddlesticks")
+                description.set("A Java wrapper for the League of Legends API")
+                url.set("https://github.com/jkrannich/fiddlesticks")
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/jkrannich/fiddlesticks")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
 
 dependencies {
