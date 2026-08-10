@@ -25,16 +25,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ClashV1ClientTest {
+class ClashClientTest {
 
     @Mock
     private RiotHttp riotHttp;
 
-    private ClashV1Client clashV1Client;
+    private ClashClient clashClient;
 
     @BeforeEach
     void setUp() {
-        clashV1Client = new ClashV1Client(riotHttp);
+        clashClient = new ClashClient(riotHttp);
     }
 
     @Test
@@ -50,7 +50,7 @@ class ClashV1ClientTest {
         ApiResponse<PlayerDto[]> response = new ApiResponse<>(200, Map.of(), players);
         when(riotHttp.get(any(URI.class), eq(PlayerDto[].class))).thenReturn(response);
 
-        List<PlayerDto> result = clashV1Client.getPlayersByPuuid(platformRegion, puuid);
+        List<PlayerDto> result = clashClient.getPlayersByPuuid(platformRegion, puuid);
 
         assertThat(result).isNotNull();
         assertThat(result).hasSize(2);
@@ -83,7 +83,7 @@ class ClashV1ClientTest {
         ApiResponse<TeamDto> response = new ApiResponse<>(200, Map.of(), teamDto);
         when(riotHttp.get(any(URI.class), eq(TeamDto.class))).thenReturn(response);
 
-        TeamDto result = clashV1Client.getTeamById(platformRegion, teamId);
+        TeamDto result = clashClient.getTeamById(platformRegion, teamId);
 
         assertThat(result).isNotNull();
         assertThat(result).isSameAs(teamDto);
@@ -106,7 +106,7 @@ class ClashV1ClientTest {
         ApiResponse<TournamentDto[]> response = new ApiResponse<>(200, Map.of(), tournaments);
         when(riotHttp.get(any(URI.class), eq(TournamentDto[].class))).thenReturn(response);
 
-        List<TournamentDto> result = clashV1Client.getAllActiveOrUpcomingTournaments(platformRegion);
+        List<TournamentDto> result = clashClient.getAllActiveOrUpcomingTournaments(platformRegion);
 
         assertThat(result).isNotNull();
         assertThat(result).hasSize(2);
@@ -133,7 +133,7 @@ class ClashV1ClientTest {
         ApiResponse<TournamentDto> response = new ApiResponse<>(200, Map.of(), tournament);
         when(riotHttp.get(any(URI.class), eq(TournamentDto.class))).thenReturn(response);
 
-        TournamentDto result = clashV1Client.getTournamentByTeamId(platformRegion, teamId);
+        TournamentDto result = clashClient.getTournamentByTeamId(platformRegion, teamId);
 
         assertThat(result).isNotNull();
         assertThat(result).isSameAs(tournament);
@@ -158,7 +158,7 @@ class ClashV1ClientTest {
         ApiResponse<TournamentDto> response = new ApiResponse<>(200, Map.of(), tournament);
         when(riotHttp.get(any(URI.class), eq(TournamentDto.class))).thenReturn(response);
 
-        TournamentDto result = clashV1Client.getTournamentById(platformRegion, tournamentId);
+        TournamentDto result = clashClient.getTournamentById(platformRegion, tournamentId);
 
         assertThat(result).isNotNull();
         assertThat(result).isSameAs(tournament);

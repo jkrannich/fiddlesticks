@@ -23,16 +23,16 @@ import java.util.Map;
 import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
-public class LeagueExpV4ClientTest {
+public class LeagueExperienceClientTest {
 
     @Mock
     private RiotHttp riotHttp;
 
-    private LeagueExpV4Client leagueExpV4Client;
+    private LeagueExperienceClient leagueExperienceClient;
 
     @BeforeEach
     void setUp() {
-        leagueExpV4Client = new LeagueExpV4Client(riotHttp);
+        leagueExperienceClient = new LeagueExperienceClient(riotHttp);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class LeagueExpV4ClientTest {
         ApiResponse<LeagueEntryDto[]> response = new ApiResponse<>(200, Map.of(), entries);
         when(riotHttp.get(any(URI.class), eq(LeagueEntryDto[].class))).thenReturn(response);
 
-        Set<LeagueEntryDto> result = leagueExpV4Client.getAllLeagueEntries(platform, page, queueType, tier, division);
+        Set<LeagueEntryDto> result = leagueExperienceClient.getAllLeagueEntries(platform, page, queueType, tier, division);
 
         assertThat(result).isNotNull();
         assertThat(result).hasSize(2);

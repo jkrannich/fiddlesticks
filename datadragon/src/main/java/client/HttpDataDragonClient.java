@@ -9,7 +9,6 @@ import util.HttpUtils;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 public final class HttpDataDragonClient implements DataDragonClient {
 

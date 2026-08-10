@@ -11,6 +11,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 public final class HttpUtils {
 
@@ -44,7 +45,7 @@ public final class HttpUtils {
     public static <T> List<T> readArray(String url, Class<T[]> type) {
         String body = get(URI.create(url));
         try {
-            return List.of(MAPPER.readValue(body, type));
+            return List.copyOf(Arrays.asList(MAPPER.readValue(body, type)));
         } catch (IOException e) {
             throw new RuntimeException("Failed reading array from " + url, e);
         }

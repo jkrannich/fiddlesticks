@@ -20,16 +20,16 @@ import java.net.URI;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
-class MatchV5ClientTest {
+class MatchClientTest {
 
     @Mock
     private RiotHttp riotHttp;
 
-    private MatchV5Client matchV5Client;
+    private MatchClient matchClient;
 
     @BeforeEach
     void setUp() {
-        matchV5Client = new MatchV5Client(riotHttp);
+        matchClient = new MatchClient(riotHttp);
     }
 
     @Test
@@ -48,7 +48,7 @@ class MatchV5ClientTest {
         ApiResponse<String[]> response = new ApiResponse<>(200, Map.of(), expectedMatchIds);
         when(riotHttp.get(any(URI.class), eq(String[].class))).thenReturn(response);
 
-        String[] result = matchV5Client.getListOfMatchIdsByPuuid(route, puuid, start, count);
+        String[] result = matchClient.getListOfMatchIdsByPuuid(route, puuid, start, count);
 
         assertThat(result).isNotNull();
         assertThat(result).hasSize(3);
@@ -73,7 +73,7 @@ class MatchV5ClientTest {
         ApiResponse<MatchDto> response = new ApiResponse<>(200, Map.of(), expected);
         when(riotHttp.get(any(URI.class), eq(MatchDto.class))).thenReturn(response);
 
-        MatchDto result = matchV5Client.getMatchByMatchId(route, matchId);
+        MatchDto result = matchClient.getMatchByMatchId(route, matchId);
 
         assertThat(result).isNotNull();
 
@@ -93,7 +93,7 @@ class MatchV5ClientTest {
         ApiResponse<TimelineDto> response = new ApiResponse<>(200, Map.of(), expected);
         when(riotHttp.get(any(URI.class), eq(TimelineDto.class))).thenReturn(response);
 
-        TimelineDto result = matchV5Client.getMatchTimelineByMatchId(route, matchId);
+        TimelineDto result = matchClient.getMatchTimelineByMatchId(route, matchId);
 
         assertThat(result).isNotNull();
 

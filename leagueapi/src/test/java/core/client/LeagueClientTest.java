@@ -27,16 +27,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class LeagueV4ClientTest {
+class LeagueClientTest {
 
     @Mock
     private RiotHttp riotHttp;
 
-    private LeagueV4Client leagueV4Client;
+    private LeagueClient leagueClient;
 
     @BeforeEach
     void setUp() {
-        leagueV4Client = new LeagueV4Client(riotHttp);
+        leagueClient = new LeagueClient(riotHttp);
     }
 
     @Test
@@ -58,7 +58,7 @@ class LeagueV4ClientTest {
         ApiResponse<LeagueListDto> response = new ApiResponse<>(200, Map.of(), expectedLeague);
         when(riotHttp.get(any(URI.class), eq(LeagueListDto.class))).thenReturn(response);
 
-        LeagueListDto result = leagueV4Client.getChallengerLeagueForGivenQueue(platformRegion, queueType);
+        LeagueListDto result = leagueClient.getChallengerLeagueForGivenQueue(platformRegion, queueType);
 
         assertThat(result).isNotNull();
         assertThat(result.leagueId()).isEqualTo("challenger-league-1");
@@ -94,7 +94,7 @@ class LeagueV4ClientTest {
         ApiResponse<LeagueEntryDto[]> response = new ApiResponse<>(200, Map.of(), entries);
         when(riotHttp.get(any(URI.class), eq(LeagueEntryDto[].class))).thenReturn(response);
 
-        Set<LeagueEntryDto> result = leagueV4Client.getLeagueEntriesInAllQueuesByPuuid(platformRegion, puuid);
+        Set<LeagueEntryDto> result = leagueClient.getLeagueEntriesInAllQueuesByPuuid(platformRegion, puuid);
 
         assertThat(result).isNotNull();
         assertThat(result).hasSize(2);
@@ -137,7 +137,7 @@ class LeagueV4ClientTest {
         ApiResponse<LeagueEntryDto[]> response = new ApiResponse<>(200, Map.of(), entries);
         when(riotHttp.get(any(URI.class), eq(LeagueEntryDto[].class))).thenReturn(response);
 
-        Set<LeagueEntryDto> result = leagueV4Client.getAllLeagueEntries(platformRegion, queueType, tier, division, page);
+        Set<LeagueEntryDto> result = leagueClient.getAllLeagueEntries(platformRegion, queueType, tier, division, page);
 
         assertThat(result).isNotNull();
         assertThat(result).hasSize(3);
@@ -176,7 +176,7 @@ class LeagueV4ClientTest {
         ApiResponse<LeagueListDto> response = new ApiResponse<>(200, Map.of(), expectedLeague);
         when(riotHttp.get(any(URI.class), eq(LeagueListDto.class))).thenReturn(response);
 
-        LeagueListDto result = leagueV4Client.getGrandMasterLeagueForGivenQueue(platformRegion, queueType);
+        LeagueListDto result = leagueClient.getGrandMasterLeagueForGivenQueue(platformRegion, queueType);
 
         assertThat(result).isNotNull();
         assertThat(result.leagueId()).isEqualTo("grandmaster-league-1");
@@ -212,7 +212,7 @@ class LeagueV4ClientTest {
         ApiResponse<LeagueListDto> response = new ApiResponse<>(200, Map.of(), expectedLeague);
         when(riotHttp.get(any(URI.class), eq(LeagueListDto.class))).thenReturn(response);
 
-        LeagueListDto result = leagueV4Client.getLeagueWithGivenIdIncludingInactiveEntries(platformRegion, leagueId);
+        LeagueListDto result = leagueClient.getLeagueWithGivenIdIncludingInactiveEntries(platformRegion, leagueId);
 
         assertThat(result).isNotNull();
         assertThat(result.leagueId()).isEqualTo(leagueId);
@@ -249,7 +249,7 @@ class LeagueV4ClientTest {
         ApiResponse<LeagueListDto> response = new ApiResponse<>(200, Map.of(), expectedLeague);
         when(riotHttp.get(any(URI.class), eq(LeagueListDto.class))).thenReturn(response);
 
-        LeagueListDto result = leagueV4Client.getMasterLeagueForGivenQueue(platformRegion, queueType);
+        LeagueListDto result = leagueClient.getMasterLeagueForGivenQueue(platformRegion, queueType);
 
         assertThat(result).isNotNull();
         assertThat(result.leagueId()).isEqualTo("master-league-1");

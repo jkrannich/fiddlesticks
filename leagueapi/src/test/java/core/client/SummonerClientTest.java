@@ -19,16 +19,16 @@ import java.net.URI;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
-class SummonerV4ClientTest {
+class SummonerClientTest {
 
     @Mock
     private RiotHttp riotHttp;
 
-    private SummonerV4Client summonerV4Client;
+    private SummonerClient summonerClient;
 
     @BeforeEach
     void setUp() {
-        summonerV4Client = new SummonerV4Client(riotHttp);
+        summonerClient = new SummonerClient(riotHttp);
     }
 
     @Test
@@ -49,7 +49,7 @@ class SummonerV4ClientTest {
         ApiResponse<SummonerDto> response = new ApiResponse<>(200, Map.of(), expected);
         when(riotHttp.get(any(URI.class), eq(SummonerDto.class))).thenReturn(response);
 
-        SummonerDto result = summonerV4Client.byPuuid(platformRegion, puuid);
+        SummonerDto result = summonerClient.byPuuid(platformRegion, puuid);
 
         assertThat(result).isNotNull();
         assertThat(result.id()).isEqualTo("id123");

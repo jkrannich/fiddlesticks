@@ -1,79 +1,221 @@
 package core;
 
-import core.client.AccountV1Client;
-import core.client.ChampionMasteryV4Client;
-import core.client.ChampionV3Client;
-import core.client.ClashV1Client;
-import core.client.LeagueExpV4Client;
-import core.client.LeagueV4Client;
-import core.client.LoLChallengesV1Client;
-import core.client.MatchV5Client;
-import core.client.SpectatorV5Client;
-import core.client.SummonerV4Client;
+import core.client.AccountClient;
+import core.client.ChallengesClient;
+import core.client.ChampionClient;
+import core.client.ChampionMasteryClient;
+import core.client.ClashClient;
+import core.client.LeagueClient;
+import core.client.LeagueExperienceClient;
+import core.client.MatchClient;
+import core.client.SpectatorClient;
+import core.client.StatusClient;
+import core.client.SummonerClient;
+import core.config.Regions;
+import core.config.RiotApiConfig;
+import core.http.JavaNetRiotHttp;
 import core.http.RiotHttp;
+import lombok.Builder;
 
+import java.time.Duration;
+
+/**
+ * Entry point for the synchronous Riot API wrapper.
+ *
+ * <pre>
+ * RiotApi api = RiotApi.builder().apiKey(key).build();
+ * api.regional().accounts().byRiotId("GameName", "TAG");
+ * api.platform().clash().getAllActiveOrUpcomingTournaments();
+ * </pre>
+ */
 public final class RiotApi {
-    private final AccountV1Client accountV1Client;
-    private final MatchV5Client matchV5Client;
-    private final SummonerV4Client summonerV4Client;
-    private final ChampionMasteryV4Client championMasteryV4Client;
-    private final ChampionV3Client championV3Client;
-    private final ClashV1Client clashV1Client;
-    private final LeagueV4Client leagueV4Client;
-    private final LeagueExpV4Client leagueExpV4Client;
-    private final LoLChallengesV1Client loLChallengesV1Client;
-    private final SpectatorV5Client spectatorV5Client;
+    private final RiotHttp riotHttp;
+    private final Regions.PlatformRegion defaultPlatformRegion;
+    private final Regions.RegionalRoute defaultRegionalRoute;
 
+    private final AccountClient accountClient;
+    private final MatchClient matchClient;
+    private final SummonerClient summonerClient;
+    private final ChampionMasteryClient championMasteryClient;
+    private final ChampionClient championClient;
+    private final ClashClient clashClient;
+    private final LeagueClient leagueClient;
+    private final LeagueExperienceClient leagueExperienceClient;
+    private final ChallengesClient challengesClient;
+    private final StatusClient statusClient;
+    private final SpectatorClient spectatorClient;
+
+    /** Creates a client around a custom transport, useful for tests and advanced integrations. */
     public RiotApi(final RiotHttp riotHttp) {
-        this.accountV1Client = new AccountV1Client(riotHttp);
-        this.matchV5Client = new MatchV5Client(riotHttp);
-        this.summonerV4Client = new SummonerV4Client(riotHttp);
-        this.championMasteryV4Client = new ChampionMasteryV4Client(riotHttp);
-        this.championV3Client = new ChampionV3Client(riotHttp);
-        this.clashV1Client = new ClashV1Client(riotHttp);
-        this.leagueV4Client = new LeagueV4Client(riotHttp);
-        this.leagueExpV4Client = new LeagueExpV4Client(riotHttp);
-        this.loLChallengesV1Client = new LoLChallengesV1Client(riotHttp);
-        this.spectatorV5Client = new SpectatorV5Client(riotHttp);
+        this(riotHttp, Regions.PlatformRegion.EUW1, Regions.RegionalRoute.EUROPE);
     }
 
-    public AccountV1Client account() {
-        return accountV1Client;
+    public RiotApi(
+            final RiotHttp riotHttp,
+            final Regions.PlatformRegion defaultPlatformRegion,
+            final Regions.RegionalRoute defaultRegionalRoute
+    ) {
+        this.riotHttp = riotHttp;
+        this.defaultPlatformRegion = defaultPlatformRegion;
+        this.defaultRegionalRoute = defaultRegionalRoute;
+        this.accountClient = new AccountClient(riotHttp, defaultRegionalRoute);
+        this.matchClient = new MatchClient(riotHttp, defaultRegionalRoute);
+        this.summonerClient = new SummonerClient(riotHttp, defaultPlatformRegion);
+        this.championMasteryClient = new ChampionMasteryClient(riotHttp, defaultPlatformRegion);
+        this.championClient = new ChampionClient(riotHttp, defaultPlatformRegion);
+        this.clashClient = new ClashClient(riotHttp, defaultPlatformRegion);
+        this.leagueClient = new LeagueClient(riotHttp, defaultPlatformRegion);
+        this.leagueExperienceClient = new LeagueExperienceClient(riotHttp, defaultPlatformRegion);
+        this.challengesClient = new ChallengesClient(riotHttp, defaultPlatformRegion);
+        this.statusClient = new StatusClient(riotHttp, defaultPlatformRegion);
+        this.spectatorClient = new SpectatorClient(riotHttp, defaultPlatformRegion);
     }
 
-    public SummonerV4Client summoner() {
-        return summonerV4Client;
+    @Builder(builderMethodName = "builder")
+    private static RiotApi create(
+            final String apiKey,
+            final Regions.PlatformRegion defaultPlatformRegion,
+            final Regions.RegionalRoute defaultRegionalRoute,
+            final Duration timeout
+    ) {
+        final RiotApiConfig config = RiotApiConfig.builder()
+                .apiKey(apiKey)
+                .defaultPlatformRegion(defaultPlatformRegion)
+                .defaultRegionalRoute(defaultRegionalRoute)
+                .timeout(timeout)
+                .build();
+        return new RiotApi(
+                new JavaNetRiotHttp(config),
+                config.getDefaultPlatformRegion(),
+                config.getDefaultRegionalRoute()
+        );
     }
 
-    public MatchV5Client match() {
-        return matchV5Client;
+    public AccountClient account() {
+        return accountClient;
     }
 
-    public ChampionMasteryV4Client championMastery() {
-        return championMasteryV4Client;
+    public AccountClient accounts() {
+        return accountClient;
     }
 
-    public ChampionV3Client champion() {
-        return championV3Client;
+    public SummonerClient summoner() {
+        return summonerClient;
     }
 
-    public ClashV1Client clash() {
-        return clashV1Client;
+    public MatchClient match() {
+        return matchClient;
     }
 
-    public LeagueV4Client league() {
-        return leagueV4Client;
+    public MatchClient matches() {
+        return matchClient;
     }
 
-    public LeagueExpV4Client leagueExp() {
-        return leagueExpV4Client;
+    public ChampionMasteryClient championMastery() {
+        return championMasteryClient;
     }
 
-    public LoLChallengesV1Client challenges() {
-        return loLChallengesV1Client;
+    public ChampionClient champion() {
+        return championClient;
     }
 
-    public SpectatorV5Client spectator() {
-        return spectatorV5Client;
+    public ClashClient clash() {
+        return clashClient;
+    }
+
+    public LeagueClient league() {
+        return leagueClient;
+    }
+
+    public LeagueExperienceClient leagueExp() {
+        return leagueExperienceClient;
+    }
+
+    public ChallengesClient challenges() {
+        return challengesClient;
+    }
+
+    public StatusClient status() {
+        return statusClient;
+    }
+
+    public SpectatorClient spectator() {
+        return spectatorClient;
+    }
+
+    public RegionalScope regional() {
+        return regional(defaultRegionalRoute);
+    }
+
+    public RegionalScope regional(final Regions.RegionalRoute route) {
+        return new RegionalScope(route);
+    }
+
+    public PlatformScope platform() {
+        return platform(defaultPlatformRegion);
+    }
+
+    public PlatformScope platform(final Regions.PlatformRegion region) {
+        return new PlatformScope(region);
+    }
+
+    public final class RegionalScope {
+        private final Regions.RegionalRoute route;
+
+        private RegionalScope(final Regions.RegionalRoute route) {
+            this.route = route;
+        }
+
+        public AccountClient accounts() {
+            return new AccountClient(riotHttp, route);
+        }
+
+        public MatchClient matches() {
+            return new MatchClient(riotHttp, route);
+        }
+    }
+
+    public final class PlatformScope {
+        private final Regions.PlatformRegion region;
+
+        private PlatformScope(final Regions.PlatformRegion region) {
+            this.region = region;
+        }
+
+        public SummonerClient summoners() {
+            return new SummonerClient(riotHttp, region);
+        }
+
+        public ClashClient clash() {
+            return new ClashClient(riotHttp, region);
+        }
+
+        public LeagueClient league() {
+            return new LeagueClient(riotHttp, region);
+        }
+
+        public LeagueExperienceClient leagueExp() {
+            return new LeagueExperienceClient(riotHttp, region);
+        }
+
+        public ChampionMasteryClient championMastery() {
+            return new ChampionMasteryClient(riotHttp, region);
+        }
+
+        public ChampionClient champion() {
+            return new ChampionClient(riotHttp, region);
+        }
+
+        public ChallengesClient challenges() {
+            return new ChallengesClient(riotHttp, region);
+        }
+
+        public StatusClient status() {
+            return new StatusClient(riotHttp, region);
+        }
+
+        public SpectatorClient spectator() {
+            return new SpectatorClient(riotHttp, region);
+        }
     }
 }

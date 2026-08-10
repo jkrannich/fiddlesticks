@@ -21,10 +21,10 @@ public final class DefaultRankService implements RankService {
 
     @Override
     public Optional<RankSnapshot> rankByRiotId(Regions.RegionalRoute route, Regions.PlatformRegion platformRegion, String gameName, String tagLine, RankedQueue queue) {
-        AccountDto accountDto = riotApi.account().byRiotId(route, gameName, tagLine);
+        AccountDto accountDto = riotApi.regional(route).accounts().byRiotId(gameName, tagLine);
         String puuid = accountDto.puuid();
 
-        Set<LeagueEntryDto> entries = riotApi.league().getLeagueEntriesInAllQueuesByPuuid(platformRegion, puuid);
+        Set<LeagueEntryDto> entries = riotApi.platform(platformRegion).league().getLeagueEntriesInAllQueuesByPuuid(puuid);
 
         Queue targetQueue = switch (queue) {
             case SOLO_5X5 -> Queue.RANKED_SOLO_5x5;

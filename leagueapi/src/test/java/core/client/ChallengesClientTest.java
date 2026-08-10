@@ -1,5 +1,6 @@
 package core.client;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import core.config.Regions;
 import core.dto.challenges.ApexPlayerInfoDto;
 import core.dto.challenges.ChallengeConfigInfoDto;
@@ -26,19 +27,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ChallengesV1ClientTest {
+class ChallengesClientTest {
 
     @Mock
     private RiotHttp riotHttp;
 
-    private LoLChallengesV1Client challengesV1Client;
+    private ChallengesClient challengesClient;
 
     @BeforeEach
     void setUp() {
-        challengesV1Client = new LoLChallengesV1Client(riotHttp);
+        challengesClient = new ChallengesClient(riotHttp);
     }
 
     @Test
@@ -71,7 +73,7 @@ class ChallengesV1ClientTest {
         ApiResponse<ChallengeConfigInfoDto[]> response = new ApiResponse<>(200, Map.of(), configs);
         when(riotHttp.get(any(URI.class), eq(ChallengeConfigInfoDto[].class))).thenReturn(response);
 
-        List<ChallengeConfigInfoDto> result = challengesV1Client.listAllBasicChallengeConfigInfo(platformRegion);
+        List<ChallengeConfigInfoDto> result = challengesClient.listAllBasicChallengeConfigInfo(platformRegion);
 
         assertThat(result).isNotNull();
         assertThat(result).hasSize(2);
@@ -99,10 +101,10 @@ class ChallengesV1ClientTest {
         );
 
         ApiResponse<Map> response = new ApiResponse<>(200, Map.of(), expectedMap);
-        when(riotHttp.get(any(URI.class), eq(Map.class))).thenReturn(response);
+        doReturn(response).when(riotHttp).get(any(URI.class), any(TypeReference.class));
 
         Map<Long, Map<Integer, Map<Level, Double>>> result =
-                challengesV1Client.getMapOfLevelToPercentileOfPlayersWhoAchievedIt(platformRegion);
+                challengesClient.getMapOfLevelToPercentileOfPlayersWhoAchievedIt(platformRegion);
 
         assertThat(result).isNotNull();
         assertThat(result).hasSize(2);
@@ -111,7 +113,7 @@ class ChallengesV1ClientTest {
 
         verify(riotHttp).get(
                 eq(URI.create(platformRegion.baseUrl() + "/lol/challenges/v1/challenges/percentiles")),
-                eq(Map.class)
+                any(TypeReference.class)
         );
     }
 
@@ -134,7 +136,7 @@ class ChallengesV1ClientTest {
         ApiResponse<ChallengeConfigInfoDto> response = new ApiResponse<>(200, Map.of(), config);
         when(riotHttp.get(any(URI.class), eq(ChallengeConfigInfoDto.class))).thenReturn(response);
 
-        ChallengeConfigInfoDto result = challengesV1Client.getChallengeConfig(platformRegion, challengeId);
+        ChallengeConfigInfoDto result = challengesClient.getChallengeConfig(platformRegion, challengeId);
 
         assertThat(result).isNotNull();
         assertThat(result.id()).isEqualTo(12345L);
@@ -164,7 +166,7 @@ class ChallengesV1ClientTest {
         ApiResponse<ApexPlayerInfoDto[]> response = new ApiResponse<>(200, Map.of(), apexPlayers);
         when(riotHttp.get(any(URI.class), eq(ApexPlayerInfoDto[].class))).thenReturn(response);
 
-        List<ApexPlayerInfoDto> result = challengesV1Client.getTopPlayersForEachlevel(
+        List<ApexPlayerInfoDto> result = challengesClient.getTopPlayersForEachlevel(
                 platformRegion, level, challengeId
         );
 
@@ -196,9 +198,9 @@ class ChallengesV1ClientTest {
         );
 
         ApiResponse<Map> response = new ApiResponse<>(200, Map.of(), expectedMap);
-        when(riotHttp.get(any(URI.class), eq(Map.class))).thenReturn(response);
+        doReturn(response).when(riotHttp).get(any(URI.class), any(TypeReference.class));
 
-        Map<Level, Double> result = challengesV1Client.getMapOfLevelToPercentileOfPlayersWhoAchievedIt(
+        Map<Level, Double> result = challengesClient.getMapOfLevelToPercentileOfPlayersWhoAchievedIt(
                 platformRegion, challengeId
         );
 
@@ -210,7 +212,7 @@ class ChallengesV1ClientTest {
 
         verify(riotHttp).get(
                 eq(URI.create(platformRegion.baseUrl() + "/lol/challenges/v1/challenges/" + challengeId + "/percentiles")),
-                eq(Map.class)
+                any(TypeReference.class)
         );
     }
 
@@ -250,7 +252,7 @@ class ChallengesV1ClientTest {
         ApiResponse<PlayerInfoDto> response = new ApiResponse<>(200, Map.of(), playerInfo);
         when(riotHttp.get(any(URI.class), eq(PlayerInfoDto.class))).thenReturn(response);
 
-        PlayerInfoDto result = challengesV1Client.getPlayerInformationWithListOfAllPrgoressedChallenges(
+        PlayerInfoDto result = challengesClient.getPlayerInformationWithListOfAllPrgoressedChallenges(
                 platformRegion, puuid
         );
 

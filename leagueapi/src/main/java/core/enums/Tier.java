@@ -5,7 +5,7 @@ public enum Tier {
     GRANDMASTER,
     MASTER,
     DIAMOND,
-    Emerald,
+    EMERALD,
     PLATINUM,
     GOLD,
     SILVER,

@@ -20,15 +20,15 @@ import java.util.List;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
-class ChampionV3ClientTest {
+class ChampionClientTest {
     @Mock
     private RiotHttp riotHttp;
 
-    private ChampionV3Client championV3Client;
+    private ChampionClient championClient;
 
     @BeforeEach
     void setUp() {
-        championV3Client = new ChampionV3Client(riotHttp);
+        championClient = new ChampionClient(riotHttp);
     }
 
     @Test
@@ -44,7 +44,7 @@ class ChampionV3ClientTest {
         ApiResponse<ChampionInfoDto> response = new ApiResponse<>(200, Map.of(), expected);
         when(riotHttp.get(any(URI.class), eq(ChampionInfoDto.class))).thenReturn(response);
 
-        ChampionInfoDto result = championV3Client.getChampionRotation(platform);
+        ChampionInfoDto result = championClient.getChampionRotation(platform);
 
         assertThat(result).isNotNull();
         assertThat(result.maxNewPlayerLevel()).isEqualTo(expected.maxNewPlayerLevel());

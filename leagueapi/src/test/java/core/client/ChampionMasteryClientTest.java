@@ -20,16 +20,16 @@ import java.util.List;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
-class ChampionMasteryV4ClientTest {
+class ChampionMasteryClientTest {
 
     @Mock
     private RiotHttp riotHttp;
 
-    private ChampionMasteryV4Client championMasteryV4Client;
+    private ChampionMasteryClient championMasteryClient;
 
     @BeforeEach
     void setUp() {
-        championMasteryV4Client = new ChampionMasteryV4Client(riotHttp);
+        championMasteryClient = new ChampionMasteryClient(riotHttp);
     }
 
     @Test
@@ -43,7 +43,7 @@ class ChampionMasteryV4ClientTest {
         ApiResponse<ChampionMasteryDto[]> response = new ApiResponse<>(200, Map.of(), masteries);
         when(riotHttp.get(any(URI.class), eq(ChampionMasteryDto[].class))).thenReturn(response);
 
-        List<ChampionMasteryDto> result = championMasteryV4Client.getChampionMasteriesByPuuid(
+        List<ChampionMasteryDto> result = championMasteryClient.getChampionMasteriesByPuuid(
                 Regions.PlatformRegion.EUW1,
                 puuid
         );
@@ -70,7 +70,7 @@ class ChampionMasteryV4ClientTest {
         ApiResponse<ChampionMasteryDto[]> response = new ApiResponse<>(200, Map.of(), masteries);
         when(riotHttp.get(any(URI.class), eq(ChampionMasteryDto[].class))).thenReturn(response);
 
-        List<ChampionMasteryDto> result = championMasteryV4Client.getChampionMasteriesByPuuidTop(
+        List<ChampionMasteryDto> result = championMasteryClient.getChampionMasteriesByPuuidTop(
                 Regions.PlatformRegion.EUW1,
                 puuid
         );
@@ -95,7 +95,7 @@ class ChampionMasteryV4ClientTest {
         ApiResponse<ChampionMasteryDto> response = new ApiResponse<>(200, Map.of(), masteries);
         when(riotHttp.get(any(URI.class), eq(ChampionMasteryDto.class))).thenReturn(response);
 
-        ChampionMasteryDto result = championMasteryV4Client.getChampionMasteriesByPuuidAndChampionId(
+        ChampionMasteryDto result = championMasteryClient.getChampionMasteriesByPuuidAndChampionId(
                 Regions.PlatformRegion.EUW1,
                 puuid,
                 championId
@@ -120,7 +120,7 @@ class ChampionMasteryV4ClientTest {
         ApiResponse<Integer> response = new ApiResponse<>(200, Map.of(), totalMasteryScore);
         when(riotHttp.get(any(URI.class), eq(Integer.class))).thenReturn(response);
 
-        int result = championMasteryV4Client.getTotalMasteryScore(
+        int result = championMasteryClient.getTotalMasteryScore(
                 Regions.PlatformRegion.EUW1,
                 puuid
         );

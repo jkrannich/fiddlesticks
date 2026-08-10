@@ -2,6 +2,12 @@ plugins {
     id("java")
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(26)
+    }
+}
+
 group="io.github.jkrannich"
 version="1.0-SNAPSHOT"
 

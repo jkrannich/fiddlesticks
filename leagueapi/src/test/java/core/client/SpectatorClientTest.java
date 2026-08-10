@@ -25,16 +25,16 @@ import java.util.List;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
-class SpectatorV5ClientTest {
+class SpectatorClientTest {
 
     @Mock
     private RiotHttp riotHttp;
 
-    private SpectatorV5Client spectatorV5Client;
+    private SpectatorClient spectatorClient;
 
     @BeforeEach
     void setUp() {
-        spectatorV5Client = new SpectatorV5Client(riotHttp);
+        spectatorClient = new SpectatorClient(riotHttp);
     }
 
     @Test
@@ -90,7 +90,7 @@ class SpectatorV5ClientTest {
         ApiResponse<CurrentGameInfo> response = new ApiResponse<>(200, Map.of(), expectedGameInfo);
         when(riotHttp.get(any(URI.class), eq(CurrentGameInfo.class))).thenReturn(response);
 
-        CurrentGameInfo result = spectatorV5Client.getCurrentGameInfoForGivenPuuid(region, puuid);
+        CurrentGameInfo result = spectatorClient.getCurrentGameInfoForGivenPuuid(region, puuid);
 
         assertThat(result).isNotNull();
         assertThat(result.gameId()).isEqualTo(1234567890L);

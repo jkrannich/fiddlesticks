@@ -19,16 +19,16 @@ import java.net.URI;
 import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
-class AccountV1ClientTest {
+class AccountClientTest {
 
     @Mock
     private RiotHttp riotHttp;
 
-    private AccountV1Client accountV1Client;
+    private AccountClient accountClient;
 
     @BeforeEach
     void setUp() {
-        accountV1Client = new AccountV1Client(riotHttp);
+        accountClient = new AccountClient(riotHttp);
     }
 
     @Test
@@ -44,7 +44,7 @@ class AccountV1ClientTest {
         ApiResponse<AccountDto> response = new ApiResponse<>(200, Map.of(), expectedAccount);
         when(riotHttp.get(any(URI.class), eq(AccountDto.class))).thenReturn(response);
 
-        AccountDto result = accountV1Client.byRiotId(Regions.RegionalRoute.EUROPE, gameName, tagLine);
+        AccountDto result = accountClient.byRiotId(Regions.RegionalRoute.EUROPE, gameName, tagLine);
 
         assertThat(result).isNotNull();
         assertThat(result.puuid()).isEqualTo("11111111");
@@ -69,7 +69,7 @@ class AccountV1ClientTest {
         ApiResponse<AccountDto> response = new ApiResponse<>(200, Map.of(), expectedAccount);
         when(riotHttp.get(any(URI.class), eq(AccountDto.class))).thenReturn(response);
 
-        AccountDto result = accountV1Client.byPuuid(Regions.RegionalRoute.EUROPE, puuid);
+        AccountDto result = accountClient.byPuuid(Regions.RegionalRoute.EUROPE, puuid);
 
         assertThat(result).isNotNull();
         assertThat(result.puuid()).isEqualTo(puuid);

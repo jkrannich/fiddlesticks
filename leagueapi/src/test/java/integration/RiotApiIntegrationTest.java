@@ -3,21 +3,22 @@ package integration;
 import static org.assertj.core.api.Assertions.assertThat;
 import core.RiotApi;
 import core.config.Regions;
-import core.config.RiotApiConfig;
 import core.dto.account.AccountDto;
 import core.dto.challenges.ChallengeConfigInfoDto;
 import core.dto.championMastery.ChampionMasteryDto;
 import core.dto.championRotation.ChampionInfoDto;
+import core.dto.clash.PlayerDto;
 import core.dto.summoner.SummonerDto;
-import core.http.JavaNetRiotHttp;
-import core.http.RiotHttp;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assumptions;
 
 import java.util.List;
 
-public class RiotApiIntegrationTest {
+@Tag("integration")
+class RiotApiIntegrationTest {
 
     private static RiotApi riotApi;
     private static final String TEST_GAME_NAME = "Thayger";
@@ -28,14 +29,20 @@ public class RiotApiIntegrationTest {
         Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
         String apiKey = dotenv.get("RIOT_API_KEY");
 
-        if (apiKey == null) {
-            throw new IllegalStateException("Please set RIOT_API_KEY environment variable");
+        if (apiKey == null || apiKey.isBlank()) {
+            apiKey = System.getenv("RIOT_API_KEY");
         }
 
-        RiotApiConfig config = RiotApiConfig.of(apiKey, Regions.PlatformRegion.EUW1, Regions.RegionalRoute.EUROPE);
+        Assumptions.assumeTrue(
+                apiKey != null && !apiKey.isBlank(),
+                "Set RIOT_API_KEY in the environment or .env to run integration tests"
+        );
 
-        RiotHttp riotHttp = new JavaNetRiotHttp(config);
-        riotApi = new RiotApi(riotHttp);
+        riotApi = RiotApi.builder()
+                .apiKey(apiKey)
+                .defaultPlatformRegion(Regions.PlatformRegion.EUW1)
+                .defaultRegionalRoute(Regions.RegionalRoute.EUROPE)
+                .build();
     }
 
     @Test
@@ -89,6 +96,20 @@ public class RiotApiIntegrationTest {
 
         assertThat(matchIds).isNotEmpty();
         assertThat(matchIds).allMatch(id -> id.contains("_"));
+    }
+
+    @Test
+    void shouldFetchClashPlayers() {
+        AccountDto account = riotApi.account().byRiotId(
+                Regions.RegionalRoute.EUROPE,
+                TEST_GAME_NAME,
+                TEST_TAG_LINE
+        );
+        List<PlayerDto> players = riotApi.platform()
+                .clash()
+                .getPlayersByPuuid(account.puuid());
+
+        assertThat(players).isNotNull();
     }
 
     @Test
