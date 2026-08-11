@@ -2,6 +2,22 @@
 
 The library is synchronous by design. It does not retry requests, wait on rate limits, or run requests concurrently; those policies stay with the application using it.
 
+## Add the dependency
+
+After the first Central release:
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.github.jkrannich:leagueapi:0.1.0")
+}
+```
+
+For local development, publish the current snapshot with `gradlew :leagueapi:publishToMavenLocal` and add `mavenLocal()` to the consuming project.
+
 ## Create a client
 
 ```java
@@ -67,3 +83,5 @@ gradlew :leagueapi:test -PincludeIntegrationTests
 ```
 
 Set `RIOT_API_KEY` in the environment or `.env` before enabling them.
+
+See [`RELEASING.md`](../RELEASING.md) for Central Portal publishing and signing setup.

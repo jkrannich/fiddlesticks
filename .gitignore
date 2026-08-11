@@ -54,3 +54,4 @@ bin/
 # Logs / temp
 *.log
 tmp/
+/.idea/.gitignore
