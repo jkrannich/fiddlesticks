@@ -30,40 +30,4 @@ public record ItemDataDto(
         String requiredChampion,
         String requiredAlly
 ) {
-
-    /** Compatibility constructor for the original item DTO shape. */
-    public ItemDataDto(
-            final String name,
-            final String description,
-            final String plaintext,
-            final List<String> into,
-            final List<String> from,
-            final ItemGoldDto gold,
-            final Map<String, Double> stats
-    ) {
-        this(
-                name,
-                description,
-                null,
-                plaintext,
-                into,
-                from,
-                gold,
-                null,
-                null,
-                null,
-                null,
-                stats,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-    }
 }

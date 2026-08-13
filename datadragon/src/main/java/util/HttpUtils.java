@@ -1,18 +1,19 @@
 package util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Arrays;
 
 public final class HttpUtils {
 
@@ -20,8 +21,9 @@ public final class HttpUtils {
             .connectTimeout(Duration.ofSeconds(5))
             .build();
 
-    private static final ObjectMapper MAPPER = new ObjectMapper()
-            .findAndRegisterModules();
+    private static final ObjectMapper MAPPER = JsonMapper.builder()
+            .findAndAddModules()
+            .build();
 
     private HttpUtils() {}
 
@@ -29,7 +31,7 @@ public final class HttpUtils {
         String body = get(URI.create(url));
         try {
             return MAPPER.readValue(body, type);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new RuntimeException("Could not parse JSON from " + url, e);
         }
     }
@@ -38,7 +40,7 @@ public final class HttpUtils {
         String body = get(URI.create(url));
         try {
             return MAPPER.readValue(body, typeReference);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new RuntimeException("Could not parse JSON from " + url, e);
         }
     }
@@ -47,7 +49,7 @@ public final class HttpUtils {
         String body = get(URI.create(url));
         try {
             return List.copyOf(Arrays.asList(MAPPER.readValue(body, type)));
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new RuntimeException("Failed reading array from " + url, e);
         }
     }
@@ -57,7 +59,7 @@ public final class HttpUtils {
         try {
             return MAPPER.readValue(body, new TypeReference<>() {
             });
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new RuntimeException("Failed reading map from " + url, e);
         }
     }
@@ -91,7 +93,7 @@ public final class HttpUtils {
         try {
             return MAPPER.readValue(body, new TypeReference<>() {
             });
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new RuntimeException("Failed reading list from " + url, e);
         }
     }

@@ -1,7 +1,9 @@
 package core.http;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import core.config.RiotApiConfig;
 import core.error.RiotException;
 import core.error.RiotNotFoundException;
@@ -19,9 +21,10 @@ import java.util.Map;
 /** Default synchronous transport. Retry and rate-limit policies intentionally live above this class. */
 public final class JavaNetRiotHttp implements RiotHttp {
     private final HttpClient httpClient;
-    private final ObjectMapper objectMapper = new ObjectMapper()
-            .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .findAndRegisterModules();
+    private final ObjectMapper objectMapper = JsonMapper.builder()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .findAndAddModules()
+            .build();
     private final String apiKey;
     private final java.time.Duration timeout;
 

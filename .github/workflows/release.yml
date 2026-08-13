@@ -33,10 +33,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Validate release
-        run: ./gradlew :leagueapi:verifyReleaseConfiguration -PreleaseVersion="${GITHUB_REF_NAME#v}" --no-daemon
+        run: ./gradlew :leagueapi:verifyReleaseConfiguration :datadragon:verifyReleaseConfiguration -PreleaseVersion="${GITHUB_REF_NAME#v}" --no-daemon
 
       - name: Build release assets
-        run: ./gradlew :leagueapi:build -PreleaseVersion="${GITHUB_REF_NAME#v}" --no-daemon
+        run: ./gradlew :leagueapi:build :datadragon:build -PreleaseVersion="${GITHUB_REF_NAME#v}" --no-daemon
 
       - name: Publish to Central Portal
         run: ./gradlew publishAggregationToCentralPortal -PreleaseVersion="${GITHUB_REF_NAME#v}" --no-daemon
@@ -51,7 +51,10 @@ jobs:
             --draft \
             --verify-tag \
             --generate-notes \
-            --title "leagueapi $RELEASE_TAG" \
+            --title "fiddlesticks $RELEASE_TAG" \
             "leagueapi/build/libs/leagueapi-${RELEASE_VERSION}.jar" \
             "leagueapi/build/libs/leagueapi-${RELEASE_VERSION}-sources.jar" \
-            "leagueapi/build/libs/leagueapi-${RELEASE_VERSION}-javadoc.jar"
+            "leagueapi/build/libs/leagueapi-${RELEASE_VERSION}-javadoc.jar" \
+            "datadragon/build/libs/datadragon-${RELEASE_VERSION}.jar" \
+            "datadragon/build/libs/datadragon-${RELEASE_VERSION}-sources.jar" \
+            "datadragon/build/libs/datadragon-${RELEASE_VERSION}-javadoc.jar"

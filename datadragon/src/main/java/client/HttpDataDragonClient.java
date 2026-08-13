@@ -1,8 +1,10 @@
 package client;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import dto.ChampionDetailsDto;
 import dto.ChampionDto;
 import dto.ChampionsIndexDto;
@@ -12,7 +14,6 @@ import dto.RuneTreeDto;
 import dto.SummonerSpellsDto;
 import util.HttpUtils;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -35,9 +36,10 @@ public final class HttpDataDragonClient implements DataDragonClient {
     /** Creates a client with a custom transport, useful for tests and advanced integrations. */
     public HttpDataDragonClient(final DataDragonTransport transport) {
         this.transport = Objects.requireNonNull(transport, "transport");
-        this.objectMapper = new ObjectMapper()
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .findAndRegisterModules();
+        this.objectMapper = JsonMapper.builder()
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .findAndAddModules()
+                .build();
     }
 
     @Override
@@ -211,7 +213,7 @@ public final class HttpDataDragonClient implements DataDragonClient {
     private <T> T read(final URI uri, final Class<T> type) {
         try {
             return objectMapper.readValue(transport.get(uri), type);
-        } catch (final IOException e) {
+        } catch (final JacksonException e) {
             throw new RuntimeException("Could not parse JSON from " + uri, e);
         }
     }
@@ -219,7 +221,7 @@ public final class HttpDataDragonClient implements DataDragonClient {
     private <T> T read(final URI uri, final TypeReference<T> type) {
         try {
             return objectMapper.readValue(transport.get(uri), type);
-        } catch (final IOException e) {
+        } catch (final JacksonException e) {
             throw new RuntimeException("Could not parse JSON from " + uri, e);
         }
     }

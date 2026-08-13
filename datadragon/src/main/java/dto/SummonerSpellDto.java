@@ -32,41 +32,4 @@ public record SummonerSpellDto(
         List<String> modes,
         int summonerLevel
 ) {
-
-    /** Compatibility constructor for the original summoner spell DTO shape. */
-    public SummonerSpellDto(
-            final String id,
-            final String name,
-            final String description,
-            final String tooltip,
-            final String key,
-            final int summonerLevel,
-            final List<String> modes
-    ) {
-        this(
-                id,
-                name,
-                description,
-                tooltip,
-                null,
-                0,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                key,
-                modes,
-                summonerLevel
-        );
-    }
 }

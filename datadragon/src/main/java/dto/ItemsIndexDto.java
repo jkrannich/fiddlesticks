@@ -11,13 +11,4 @@ public record ItemsIndexDto(
         ItemDataDto basic,
         Map<String, ItemDataDto> data
 ) {
-
-    /** Compatibility constructor for the original index DTO shape. */
-    public ItemsIndexDto(
-            final String type,
-            final String version,
-            final Map<String, ItemDataDto> data
-    ) {
-        this(type, version, null, data);
-    }
 }

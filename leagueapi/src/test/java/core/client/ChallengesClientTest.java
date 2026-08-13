@@ -1,6 +1,6 @@
 package core.client;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import tools.jackson.core.type.TypeReference;
 import core.config.Regions;
 import core.dto.challenges.ApexPlayerInfoDto;
 import core.dto.challenges.ChallengeConfigInfoDto;

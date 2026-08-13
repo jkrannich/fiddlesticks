@@ -132,9 +132,7 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:1.18.46")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.46")
 
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
-    implementation("com.fasterxml.jackson.core:jackson-core:2.21.4")
-    implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.1")
+    implementation("tools.jackson.core:jackson-databind:3.2.1")
     testImplementation("io.github.cdimascio:dotenv-java:3.0.0")
 }
 

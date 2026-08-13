@@ -1,6 +1,6 @@
 package core.http;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import tools.jackson.core.type.TypeReference;
 
 import java.net.URI;
 
