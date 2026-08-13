@@ -1,28 +1,29 @@
 package dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ChampionStatsDto(
         double hp,
-        double hpPerLevel,
+        @JsonProperty("hpperlevel") double hpPerLevel,
         double mp,
-        double mpPerLevel,
+        @JsonProperty("mpperlevel") double mpPerLevel,
         double movespeed,
         double armor,
-        double armorPerLevel,
+        @JsonProperty("armorperlevel") double armorPerLevel,
         double spellblock,
-        double spellblockPerLevel,
+        @JsonProperty("spellblockperlevel") double spellblockPerLevel,
         double attackrange,
         double hpregen,
-        double hpregenPerLevel,
+        @JsonProperty("hpregenperlevel") double hpregenPerLevel,
         double mpregen,
-        double mpregenPerLevel,
+        @JsonProperty("mpregenperlevel") double mpregenPerLevel,
         double crit,
-        double critPerLevel,
+        @JsonProperty("critperlevel") double critPerLevel,
         double attackdamage,
-        double attackdamagePerLevel,
-        double attackspeedPerLevel,
+        @JsonProperty("attackdamageperlevel") double attackdamagePerLevel,
+        @JsonProperty("attackspeedperlevel") double attackspeedPerLevel,
         double attackspeed
 ) {
 }

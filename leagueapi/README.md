@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.jkrannich:leagueapi:0.1.0")
+    implementation("io.github.jkrannich:leagueapi:0.2.0")
 }
 ```
 
@@ -83,5 +83,3 @@ gradlew :leagueapi:test -PincludeIntegrationTests
 ```
 
 Set `RIOT_API_KEY` in the environment or `.env` before enabling them.
-
-See [`RELEASING.md`](../RELEASING.md) for Central Portal publishing and signing setup.

@@ -8,6 +8,16 @@ import java.util.Map;
 public record ItemsIndexDto(
         String type,
         String version,
+        ItemDataDto basic,
         Map<String, ItemDataDto> data
 ) {
+
+    /** Compatibility constructor for the original index DTO shape. */
+    public ItemsIndexDto(
+            final String type,
+            final String version,
+            final Map<String, ItemDataDto> data
+    ) {
+        this(type, version, null, data);
+    }
 }

@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,10 @@ public final class HttpUtils {
     }
 
     public static String get(URI uri) {
+        return new String(getBytes(uri), StandardCharsets.UTF_8);
+    }
+
+    public static byte[] getBytes(URI uri) {
         try {
             HttpRequest request = HttpRequest.newBuilder(uri)
                     .timeout(Duration.ofSeconds(10))
@@ -69,10 +74,10 @@ public final class HttpUtils {
                     .GET()
                     .build();
 
-            HttpResponse<String> response = HTTP.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<byte[]> response = HTTP.send(request, HttpResponse.BodyHandlers.ofByteArray());
 
             if (response.statusCode() != 200) {
-                throw new RuntimeException("HTPP " + response.statusCode() + " for " + uri);
+                throw new RuntimeException("HTTP " + response.statusCode() + " for " + uri);
             }
 
             return response.body();
