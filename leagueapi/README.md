@@ -1,4 +1,6 @@
-# League API wrapper
+# Fiddlesticks League API
+
+[Back to the project README](../README.md)
 
 The library is synchronous by design. It does not retry requests, wait on rate limits, or run requests concurrently; those policies stay with the application using it.
 
@@ -12,11 +14,11 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.jkrannich:leagueapi:0.2.0")
+    implementation("io.github.jkrannich:leagueapi:<version>")
 }
 ```
 
-For local development, publish the current snapshot with `gradlew :leagueapi:publishToMavenLocal` and add `mavenLocal()` to the consuming project.
+For local development, publish the current snapshot with `./gradlew :leagueapi:publishToMavenLocal` and add `mavenLocal()` to the consuming project.
 
 ## Create a client
 
