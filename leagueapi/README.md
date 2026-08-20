@@ -47,6 +47,11 @@ List<String> matchIds = api.regional()
         );
 ```
 
+Match participants expose Riot's `teamId`, `role`, `teamPosition`, and
+`championId` fields. The wrapper's `MatchSummary` uses `teamId` to populate
+`teammates()` and `opponents()`; it never infers teams from participant-list
+order. If the team ID is missing, both lists remain empty.
+
 Account and Match endpoints use a regional route. Summoner, ranked, mastery, spectator, status, challenges, champion rotation, and Clash endpoints use a platform region.
 
 ## Endpoint map
@@ -75,6 +80,8 @@ List<TournamentDto> tournaments = api.platform()
 ```
 
 Available Clash operations are player lookup, team lookup, active/upcoming tournament lookup, tournament-by-team lookup, and tournament-by-ID lookup.
+The Clash client covers all read-only Clash V1 endpoints exposed by Riot; the
+API does not provide team or tournament write operations.
 
 ## Testing
 
